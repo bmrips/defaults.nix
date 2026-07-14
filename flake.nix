@@ -23,7 +23,7 @@
           flakeModule
         ];
 
-        systems = inputs.nixpkgs.lib.platforms.all;
+        systems = inputs.nixpkgs.lib.systems.flakeExposed;
 
         flake.flakeModule = flakeModule;
 
