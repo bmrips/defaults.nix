@@ -95,6 +95,7 @@
           pre-commit.settings.hooks = {
             check-executables-have-shebangs.enable = true;
             check-shebang-scripts-are-executable.enable = true;
+            shellcheck.enable = true;
           };
           treefmt.programs.shfmt.enable = true;
         })
