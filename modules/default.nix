@@ -1,0 +1,20 @@
+[
+  ./ecosystems/bash.nix
+  ./ecosystems/editorconfig.nix
+  ./ecosystems/github.nix
+  ./ecosystems/haskell.nix
+  ./ecosystems/lua.nix
+  ./ecosystems/markdown.nix
+  ./ecosystems/nix.nix
+  ./ecosystems/sops.nix
+  ./ecosystems/tex.nix
+  ./ecosystems/toml.nix
+  ./ecosystems/yaml.nix
+  ./git-hooks/default.nix
+  ./git-hooks/statix.nix
+  ./treefmt/default.nix
+  ./treefmt/mdformat.nix
+  ./treefmt/nixf-diagnose.nix
+  ./treefmt/shfmt.nix
+  ./treefmt/stylua.nix
+]
