@@ -6,9 +6,9 @@
     haumea.url = "github:nix-community/haumea/v0.2.2";
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     pre-commit.url = "github:cachix/git-hooks.nix";
-    pre-commit.inputs.nixpkgs.follows = "nixpkgs";
+    pre-commit.flake = false;
     treefmt.url = "github:numtide/treefmt-nix";
-    treefmt.inputs.nixpkgs.follows = "nixpkgs";
+    treefmt.flake = false;
   };
 
   outputs =

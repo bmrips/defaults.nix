@@ -18,8 +18,8 @@ let
 in
 {
   imports = [
-    inputs.pre-commit.flakeModule
-    inputs.treefmt.flakeModule
+    "${inputs.pre-commit}/flake-module.nix"
+    "${inputs.treefmt}/flake-module.nix"
   ];
 
   options.perSystem = flake-parts-lib.mkPerSystemOption (
