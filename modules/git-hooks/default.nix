@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 {
+  ecosystems.yaml.enable = true; # for .convco
+
   pre-commit.settings = {
     package = pkgs.prek;
     hooks = {
@@ -16,4 +18,6 @@
       typos.enable = true;
     };
   };
+
+  treefmt.programs.yamlfmt.includes = [ ".convco" ];
 }
