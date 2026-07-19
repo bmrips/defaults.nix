@@ -79,7 +79,7 @@ in
       '';
     in
     lib.mkIf config.ecosystems.github.enable {
-      defaults.shellHook = "${writeWorkflowFile}";
+      make-shells.default.shellHook = "${writeWorkflowFile}";
 
       pre-commit.settings.hooks = {
         actionlint.enable = true;

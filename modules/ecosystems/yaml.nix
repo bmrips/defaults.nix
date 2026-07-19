@@ -9,7 +9,7 @@
   options.ecosystems.yaml.enable = lib.mkEnableOption "tools for YAML development";
 
   config = lib.mkIf config.ecosystems.yaml.enable {
-    defaults.packages = [ pkgs.yq-go ];
+    make-shells.default.packages = [ pkgs.yq-go ];
     pre-commit.settings.hooks = {
       check-yaml.enable = true;
       yamllint.enable = true;

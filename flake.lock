@@ -37,6 +37,22 @@
         "type": "github"
       }
     },
+    "make-shell": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1733933815,
+        "narHash": "sha256-9JjM7eT66W4NJAXpGUsdyAFXhBxFWR2Z9LZwUa7Hli0=",
+        "owner": "nicknovitski",
+        "repo": "make-shell",
+        "rev": "ffeceae9956df03571ea8e96ef77c2924f13a63c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nicknovitski",
+        "repo": "make-shell",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1783821755,
@@ -103,6 +119,7 @@
       "inputs": {
         "flake-parts": "flake-parts",
         "haumea": "haumea",
+        "make-shell": "make-shell",
         "nixpkgs": "nixpkgs_2",
         "pre-commit": "pre-commit",
         "treefmt": "treefmt"

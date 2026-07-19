@@ -9,7 +9,7 @@
   options.ecosystems.sops.enable = lib.mkEnableOption "tools for SOPS development";
 
   config = lib.mkIf config.ecosystems.sops.enable {
-    defaults = {
+    make-shells.default = {
       packages = [ pkgs.sops ];
       shellHook = /* bash */ ''
         git config diff.sops.textconv "sops decrypt"

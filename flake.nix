@@ -4,6 +4,8 @@
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
     haumea.url = "github:nix-community/haumea/v0.2.2";
+    make-shell.url = "github:nicknovitski/make-shell";
+    make-shell.flake = false;
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     pre-commit.url = "github:cachix/git-hooks.nix";
     pre-commit.flake = false;
@@ -23,11 +25,6 @@
 
       flake.flakeModule = flakeModule;
 
-      perSystem =
-        { config, ... }:
-        {
-          devShells.default = config.defaults.devShell;
-          ecosystems.github.enable = true;
-        };
+      perSystem.ecosystems.github.enable = true;
     };
 }

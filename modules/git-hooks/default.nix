@@ -1,10 +1,17 @@
-{ pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   ecosystems = {
     toml.enable = true; # for typos.toml
     yaml.enable = true; # for .convco
   };
+
+  make-shells.default.inputsFrom = lib.optional config.pre-commit.settings.enable config.pre-commit.devShell;
 
   pre-commit.settings = {
     package = pkgs.prek;
