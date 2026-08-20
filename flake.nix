@@ -2,6 +2,8 @@
   description = "My default configuration for tools";
 
   inputs = {
+    files.url = "github:mightyiam/files";
+    files.flake = false;
     flake-parts.url = "github:hercules-ci/flake-parts";
     haumea.url = "github:nix-community/haumea/v0.2.2";
     make-shell.url = "github:nicknovitski/make-shell";

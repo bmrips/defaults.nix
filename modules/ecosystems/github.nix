@@ -72,25 +72,9 @@ in
               ${lib.getExe pkgs.yamlfmt} $out
             '';
           });
-
-      writeWorkflowFile = pkgs.writers.writeBash "write-github-workflow-nix-flake-check" ''
-        mkdir -p .github/workflows
-        cat ${workflowFile} >.github/workflows/nix-flake-check.yaml
-      '';
     in
     lib.mkIf config.ecosystems.github.enable {
-      make-shells.default.shellHook = "${writeWorkflowFile}";
-
-      pre-commit.settings.hooks = {
-        actionlint.enable = true;
-        write-github-workflow = {
-          enable = true;
-          name = "write-github-workflow";
-          pass_filenames = false;
-          always_run = true;
-          description = "Write the GitHub workflow `nix flake check`";
-          entry = "${writeWorkflowFile}";
-        };
-      };
+      files.file.".github/workflows/nix-flake-check.yaml".source = workflowFile;
+      pre-commit.settings.hooks.actionlint.enable = true;
     };
 }
