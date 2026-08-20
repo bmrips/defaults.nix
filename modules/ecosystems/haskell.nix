@@ -4,6 +4,7 @@
   options.ecosystems.haskell.enable = lib.mkEnableOption "tools for Haskell development";
 
   config = lib.mkIf config.ecosystems.haskell.enable {
+    direnv.watchedFiles = [ "*.cabal" ];
     ecosystems.yaml.enable = true; # for `fourmolu.yaml`
     git.ignore = [
       "/cabal.project.local"

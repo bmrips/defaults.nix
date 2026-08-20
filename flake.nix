@@ -27,6 +27,12 @@
 
       flake.flakeModule = flakeModule;
 
-      perSystem.ecosystems.github.enable = true;
+      perSystem = {
+        direnv = {
+          watchedDirectories = [ "modules/" ];
+          watchedFiles = [ "flake-module.nix" ];
+        };
+        ecosystems.github.enable = true;
+      };
     };
 }
