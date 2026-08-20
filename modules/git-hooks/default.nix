@@ -11,6 +11,8 @@
     yaml.enable = true; # for .convco
   };
 
+  git.ignore = [ "/.pre-commit-config.yaml" ];
+
   make-shells.default.inputsFrom = lib.optional config.pre-commit.settings.enable config.pre-commit.devShell;
 
   pre-commit.settings = {

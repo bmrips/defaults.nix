@@ -1,0 +1,4 @@
+[files]
+extend-exclude = [
+  "modules/ecosystems/tex/_gitignore.nix",
+]
