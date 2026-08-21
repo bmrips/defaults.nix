@@ -1,4 +1,10 @@
 [
+  # The document
+  "/main.pdf"
+
+  # $TEXMFVAR
+  "/.cache"
+
   ## Core latex/pdflatex auxiliary files:
   "*.aux"
   "*.lof"

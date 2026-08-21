@@ -1,6 +1,6 @@
 inputs:
 
-{ lib, ... }:
+{ lib, self, ... }:
 
 let
   collectModules =
@@ -20,5 +20,8 @@ in
     "${inputs.treefmt}/flake-module.nix"
   ];
 
-  perSystem.imports = collectModules ./modules;
+  perSystem = {
+    _module.args.root = self.outPath;
+    imports = collectModules ./modules;
+  };
 }
