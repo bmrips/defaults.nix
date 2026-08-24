@@ -12,10 +12,8 @@ in
 {
   options.ecosystems.tex = {
     enable = lib.mkEnableOption "tools for TeX development";
-    src = lib.mkOption {
-      description = ''
-        The source code for the documents.
-      '';
+    root = lib.mkOption {
+      description = "The root directory of the document.";
       example = lib.literalExpression "./.";
       default = root;
       defaultText = "self.outPath";
@@ -54,7 +52,7 @@ in
 
     ecosystems.tex.documents = pkgs.stdenvNoCC.mkDerivation {
       name = "documents";
-      inherit (cfg) src;
+      src = cfg.root;
       nativeBuildInputs = [ (pkgs.texliveBasic.withPackages cfg.packages) ];
       preBuild = "export TEXMFVAR=$(mktemp -d)";
     };
