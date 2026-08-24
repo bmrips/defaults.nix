@@ -1,17 +1,7 @@
 inputs:
 
-{ lib, self, ... }:
+{ self, ... }:
 
-let
-  collectModules =
-    path:
-    lib.collect builtins.isPath (
-      inputs.haumea.lib.load {
-        src = path;
-        loader = inputs.haumea.lib.loaders.path;
-      }
-    );
-in
 {
   imports = [
     "${inputs.files}/flake-module.nix"
@@ -22,6 +12,6 @@ in
 
   perSystem = {
     _module.args.root = self.outPath;
-    imports = collectModules ./modules;
+    imports = inputs.import-tree.leafs ./modules;
   };
 }

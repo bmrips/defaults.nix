@@ -5,7 +5,7 @@
     files.url = "github:mightyiam/files";
     files.flake = false;
     flake-parts.url = "github:hercules-ci/flake-parts";
-    haumea.url = "github:nix-community/haumea/v0.2.2";
+    import-tree.url = "github:denful/import-tree";
     make-shell.url = "github:nicknovitski/make-shell";
     make-shell.flake = false;
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
