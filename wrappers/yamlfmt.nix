@@ -27,6 +27,7 @@ in
     settings.formatter = lib.mapAttrsRecursive (_: lib.mkDefault) {
       force_array_style = "block";
       force_quote_style = "double";
+      pad_line_comments = 2;
       retain_line_breaks_single = true;
       type = "basic";
     };
