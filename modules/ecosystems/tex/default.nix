@@ -60,7 +60,7 @@ in
     make-shells.default = {
       inputsFrom = [ cfg.documents ];
       shellHook = ''
-        export TEXMFVAR=$PWD/.cache/texmf-var
+        export TEXMFVAR=$PWD/.texmf-var
         mkdir -p $TEXMFVAR
       '';
     };

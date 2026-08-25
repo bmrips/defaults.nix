@@ -3,7 +3,7 @@
   "/main.pdf"
 
   # $TEXMFVAR
-  "/.cache"
+  "/.texmf-var"
 
   ## Core latex/pdflatex auxiliary files:
   "*.aux"
