@@ -1,9 +1,0 @@
-{
-  treefmt.programs.stylua.settings = {
-    call_parentheses = "None";
-    column_width = 100;
-    indent_type = "Spaces";
-    indent_width = 2;
-    quote_style = "AutoPreferSingle";
-  };
-}

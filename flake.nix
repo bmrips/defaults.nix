@@ -13,6 +13,8 @@
     pre-commit.flake = false;
     treefmt.url = "github:numtide/treefmt-nix";
     treefmt.flake = false;
+    wrappers.url = "github:BirdeeHub/nix-wrapper-modules";
+    wrappers.flake = false;
   };
 
   outputs =
@@ -21,7 +23,10 @@
       flakeModule = import ./flake-module.nix inputs;
     in
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [ flakeModule ];
+      imports = [
+        flakeModule
+        ./wrappers
+      ];
 
       systems = inputs.nixpkgs.lib.systems.flakeExposed;
 
@@ -29,10 +34,14 @@
 
       perSystem = {
         direnv = {
-          watchedDirectories = [ "modules/" ];
+          watchedDirectories = [
+            "modules/"
+            "wrappers/"
+          ];
           watchedFiles = [ "flake-module.nix" ];
         };
         ecosystems.github.enable = true;
+        git.upstream.repository = "defaults";
       };
     };
 }

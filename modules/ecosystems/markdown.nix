@@ -4,7 +4,6 @@
   options.ecosystems.markdown.enable = lib.mkEnableOption "tools for Markdown development";
 
   config = lib.mkIf config.ecosystems.markdown.enable {
-    ecosystems.yaml.enable = true; # for `.markdownlint.yaml`
     git.attributes = [
       "*.md diff=markdown"
       "*.markdown diff=markdown"

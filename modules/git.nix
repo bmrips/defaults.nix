@@ -19,6 +19,22 @@ in
       type = with lib.types; listOf str;
       apply = lib.naturalSort;
     };
+    upstream = {
+      host = lib.mkOption {
+        description = "The server hosting the upstream repository";
+        default = "https://github.com";
+        type = lib.types.str;
+      };
+      owner = lib.mkOption {
+        description = "The owner of the upstream repository";
+        default = "bmrips";
+        type = lib.types.str;
+      };
+      repository = lib.mkOption {
+        description = "The name of the upstream repository";
+        type = lib.types.str;
+      };
+    };
   };
 
   config = {

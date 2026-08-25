@@ -8,10 +8,14 @@ inputs:
     "${inputs.make-shell}/flake-module.nix"
     "${inputs.pre-commit}/flake-module.nix"
     "${inputs.treefmt}/flake-module.nix"
+    "${inputs.wrappers}/parts.nix"
   ];
 
-  perSystem = {
-    _module.args.root = self.outPath;
+  perSystem = { system, ... }: {
+    _module.args = {
+      defaultsPkgs = inputs.self.packages.${system};
+      root = self.outPath;
+    };
     imports = inputs.import-tree.leafs ./modules;
   };
 }

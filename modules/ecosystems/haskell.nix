@@ -68,7 +68,6 @@ in
     lib.mkMerge [
 
       {
-        ecosystems.yaml.enable = true; # for `fourmolu.yaml`
         pre-commit.settings.hooks.hlint.enable = true;
         treefmt.programs.fourmolu.enable = true;
       }
