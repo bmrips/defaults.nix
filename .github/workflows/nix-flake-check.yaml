@@ -8,4 +8,4 @@ jobs:
       - name: Check flake
         run: nix flake check --print-build-logs
 name: Evaluate the flake and run its checks
-'on': push
+on: push

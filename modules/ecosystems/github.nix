@@ -7,7 +7,7 @@
 }:
 
 let
-  yaml = pkgs.formats.yaml { };
+  yaml = pkgs.formats.yaml_1_2 { };
 in
 {
   options.ecosystems.github = {

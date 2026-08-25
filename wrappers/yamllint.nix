@@ -7,7 +7,7 @@
 }:
 
 let
-  yaml = pkgs.formats.yaml { };
+  yaml = pkgs.formats.yaml_1_2 { };
 in
 {
   imports = [ wlib.modules.default ];
@@ -31,6 +31,7 @@ in
         float-values.require-numeral-before-decimal = true;
         line-length = "disable";
         octal-values.forbid-implicit-octal = true;
+        truthy.check-keys = false;
       };
     };
   };
