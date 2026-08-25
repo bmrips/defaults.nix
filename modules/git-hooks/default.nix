@@ -20,7 +20,6 @@ lib.mkMerge [
         convco.enable = true;
         detect-private-keys.enable = true;
         mixed-line-endings.enable = true;
-        treefmt.enable = true;
         trim-trailing-whitespace.enable = true;
         typos.enable = true;
       };
