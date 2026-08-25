@@ -69,7 +69,7 @@ in
           (oldAttrs: {
             buildCommand = ''
               ${oldAttrs.buildCommand}
-              ${lib.getExe pkgs.actionlint} $out
+              ${lib.getExe defaultsPkgs.actionlint} $out
               ${lib.getExe defaultsPkgs.yamlfmt} $out
             '';
           });
