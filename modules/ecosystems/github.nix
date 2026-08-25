@@ -74,6 +74,7 @@ in
           });
     in
     lib.mkIf config.ecosystems.github.enable {
+      ecosystems.yaml.enable = true;
       files.file.".github/workflows/nix-flake-check.yaml".source = workflowFile;
       pre-commit.settings.hooks.actionlint.enable = true;
     };
