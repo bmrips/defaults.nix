@@ -1,9 +1,9 @@
 {
   config,
   lib,
+  options,
   pkgs,
   root,
-  self',
   ...
 }:
 
@@ -25,7 +25,7 @@ let
   hPkgs = pkgs.haskellPackages;
 
   ghcDevShell = hPkgs.shellFor {
-    packages = _: [ self'.packages.${cfg.cabalPackage.name} ];
+    packages = _: [ cfg.cabalPackage.drv ];
     withHoogle = true;
     nativeBuildInputs = [ cabal-in-nix ];
   };
@@ -33,33 +33,33 @@ in
 {
   options.ecosystems.haskell = {
     enable = lib.mkEnableOption "tools for Haskell development";
-    cabalPackage = lib.mkOption {
-      description = ''
-        Build a contained cabal package. It is made accessible through
-        `packages.''${name}` option. The attributes are passed to
-        `haskellPackages.developPackage`.
-      '';
-      type = lib.types.submodule {
-        freeformType = with lib.types; attrsOf anything;
-        options = {
-          name = lib.mkOption {
-            description = ''
-              The name of the package. It is used to determine the file name of
-              the package description.
-            '';
-            example = "my-library";
-            type = lib.types.str;
-          };
-          root = lib.mkOption {
-            description = ''
-              The root directory of the package containing the package description.
-            '';
-            example = lib.literalExpression "./.";
-            default = root;
-            defaultText = "self.outPath";
-            type = lib.types.pathInStore;
-          };
-        };
+    cabalPackage = {
+      name = lib.mkOption {
+        description = ''
+          The name of the package. It is used to determine the file name of
+          the package description.
+        '';
+        example = "my-library";
+        type = lib.types.str;
+      };
+      root = lib.mkOption {
+        description = ''
+          The root directory of the package containing the package description.
+        '';
+        example = lib.literalExpression "./.";
+        default = root;
+        defaultText = "self.outPath";
+        type = lib.types.pathInStore;
+      };
+      extraArgs = lib.mkOption {
+        description = "Extra arguments for `haskellPackages.developPackage`.";
+        default = { };
+        type = with lib.types; attrsOf anything;
+      };
+      drv = lib.mkOption {
+        description = "A derivation containing the cabal package.";
+        type = lib.types.package;
+        readOnly = true;
       };
     };
   };
@@ -72,8 +72,11 @@ in
         treefmt.programs.fourmolu.enable = true;
       }
 
-      (lib.mkIf (config.ecosystems.haskell.cabalPackage ? name) {
+      (lib.mkIf options.ecosystems.haskell.cabalPackage.name.isDefined {
         direnv.watchedFiles = [ "${cfg.cabalPackage.name}.cabal" ];
+        ecosystems.haskell.cabalPackage.drv = hPkgs.developPackage (
+          cfg.cabalPackage.extraArgs // { inherit (cfg.cabalPackage) name root; }
+        );
         git.ignore = [
           "/cabal.project.local"
           "/cabal.project.local~"
@@ -81,7 +84,6 @@ in
           "/dist/"
         ];
         make-shells.default.inputsFrom = [ ghcDevShell ];
-        packages.${cfg.cabalPackage.name} = hPkgs.developPackage cfg.cabalPackage;
         treefmt.programs.cabal-gild.enable = true;
       })
 
