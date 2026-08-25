@@ -26,7 +26,7 @@ in
       '';
       default = _: [ ];
       defaultText = "(_: [])";
-      type = lib.types.anything;
+      type = with lib.types; functionTo (listOf package);
     };
     documents = lib.mkOption {
       description = ''
@@ -50,13 +50,14 @@ in
     pre-commit.settings.hooks.chktex.enable = true;
     treefmt.programs.latexindent.enable = true;
 
-    ecosystems.tex.documents = pkgs.stdenvNoCC.mkDerivation {
-      name = "documents";
-      src = cfg.root;
-      nativeBuildInputs = [
-        (pkgs.texliveBasic.withPackages (ps: cfg.packages ps ++ [ ps.latexmk ]))
-      ];
-      preBuild = "export TEXMFVAR=$(mktemp -d)";
+    ecosystems.tex = {
+      documents = pkgs.stdenvNoCC.mkDerivation {
+        name = "documents";
+        src = cfg.root;
+        nativeBuildInputs = [ (pkgs.texliveBasic.withPackages cfg.packages) ];
+        preBuild = "export TEXMFVAR=$(mktemp -d)";
+      };
+      packages = ps: [ ps.latexmk ];
     };
 
     make-shells.default = {
