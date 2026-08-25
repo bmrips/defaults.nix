@@ -1,5 +1,6 @@
 {
   config,
+  defaultsPkgs,
   lib,
   pkgs,
   ...
@@ -69,7 +70,7 @@ in
             buildCommand = ''
               ${oldAttrs.buildCommand}
               ${lib.getExe pkgs.actionlint} $out
-              ${lib.getExe pkgs.yamlfmt} $out
+              ${lib.getExe defaultsPkgs.yamlfmt} $out
             '';
           });
     in

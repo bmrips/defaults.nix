@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, self, ... }:
 
 let
   importModule =
@@ -8,7 +8,10 @@ let
       path' = ./. + "/${path}";
     in
     {
-      ${name}.imports = [ path' ];
+      ${name} = { pkgs, ... }: {
+        _module.args.defaultsPkgs = self.packages.${pkgs.stdenv.hostPlatform.system};
+        imports = [ path' ];
+      };
     };
 in
 {
