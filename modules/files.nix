@@ -10,6 +10,7 @@
     description = "Write the declared files";
     pass_filenames = false;
     always_run = true;
-    entry = lib.getExe config.files.writer.drv;
+    package = config.files.writer.drv;
+    entry = lib.getExe config.pre-commit.settings.hooks.write-files.package;
   };
 }
