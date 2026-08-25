@@ -6,3 +6,5 @@ updates:
       interval: "weekly"
     commit-message:
       prefix: "ci(github)"
+    cooldown:
+      default-days: 7

@@ -8,12 +8,13 @@
 
 let
   yaml = pkgs.formats.yaml_1_2 { };
+  name = "nix-flake-check";
 in
 {
   options.ecosystems.github = {
     enable = lib.mkEnableOption "tools for GitHub development";
 
-    workflows.nix-flake-check =
+    workflows.${name} =
       let
         stepsOption =
           order:
@@ -37,17 +38,25 @@ in
 
   config =
     let
-      nixFlakeCheckCfg = config.ecosystems.github.workflows.nix-flake-check;
+      nixFlakeCheckCfg = config.ecosystems.github.workflows.${name};
 
       workflow = {
         name = "Evaluate the flake and run its checks";
         on = "push";
-        jobs.nix-flake-check = {
+        permissions = { };
+        concurrency = {
+          cancel-in-progress = true;
+          group = "\${{ github.workflow }}-$\{{ github.ref }}";
+        };
+        jobs.${name} = {
+          name = "Check Nix flake";
           runs-on = "ubuntu-latest";
-          permissions = { };
           steps = [
-            { uses = "actions/checkout@v7"; }
-            { uses = "cachix/install-nix-action@v31"; }
+            {
+              uses = "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"; # v7.0.1
+              "with".persist-credentials = false;
+            }
+            { uses = "cachix/install-nix-action@13d8dd58da0234aa297dedd986986ccb8e7f3e24"; } # v31.11.1
           ]
           ++ nixFlakeCheckCfg.preSteps
           ++ [
@@ -64,19 +73,28 @@ in
         };
       };
 
-      workflowFile =
-        (yaml.generate "github-workflow-nix-flake-check.yaml" workflow).overrideAttrs
-          (oldAttrs: {
-            buildCommand = ''
-              ${oldAttrs.buildCommand}
-              ${lib.getExe defaultsPkgs.actionlint} $out
-              ${lib.getExe defaultsPkgs.yamlfmt} $out
-            '';
-          });
+      workflowFile = (yaml.generate "github-workflow-${name}.yaml" workflow).overrideAttrs (oldAttrs: {
+        buildCommand = ''
+          ${oldAttrs.buildCommand}
+          ${lib.getExe defaultsPkgs.actionlint} $out
+          ${lib.getExe defaultsPkgs.zizmor} $out
+          ${lib.getExe defaultsPkgs.yamlfmt} $out
+        '';
+      });
     in
     lib.mkIf config.ecosystems.github.enable {
       ecosystems.yaml.enable = true;
-      files.file.".github/workflows/nix-flake-check.yaml".source = workflowFile;
-      pre-commit.settings.hooks.actionlint.enable = true;
+
+      files.file.".github/workflows/${name}.yaml".source = workflowFile;
+
+      pre-commit.settings.hooks = {
+        actionlint.enable = true;
+        zizmor = {
+          enable = true;
+          package = defaultsPkgs.zizmor.wrap {
+            settings.rules.ref-version-mismatch.ignore = [ "${name}.yaml" ];
+          };
+        };
+      };
     };
 }
