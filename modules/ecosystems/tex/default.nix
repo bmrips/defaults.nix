@@ -53,7 +53,9 @@ in
     ecosystems.tex.documents = pkgs.stdenvNoCC.mkDerivation {
       name = "documents";
       src = cfg.root;
-      nativeBuildInputs = [ (pkgs.texliveBasic.withPackages cfg.packages) ];
+      nativeBuildInputs = [
+        (pkgs.texliveBasic.withPackages (ps: cfg.packages ps ++ [ ps.latexmk ]))
+      ];
       preBuild = "export TEXMFVAR=$(mktemp -d)";
     };
 
