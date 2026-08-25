@@ -1,6 +1,6 @@
 [
   # The document
-  "/main.pdf"
+  "main.pdf"
 
   # $TEXMFVAR
   "/.texmf-var"
