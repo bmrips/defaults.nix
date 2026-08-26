@@ -31,7 +31,7 @@ in
         function from the TeX Live package set to a list of packages.
       '';
       default = _: [ ];
-      defaultText = "(_: [])";
+      defaultText = "_: []";
       type = with lib.types; functionTo (listOf package);
     };
     documents = lib.mkOption {
