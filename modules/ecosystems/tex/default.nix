@@ -19,6 +19,12 @@ in
       defaultText = "self.outPath";
       type = lib.types.path;
     };
+    scheme = lib.mkOption {
+      description = "The scheme which is used as a base to add packages to.";
+      default = pkgs.texliveBasic;
+      defaultText = "pkgs.texliveBasic";
+      type = lib.types.package;
+    };
     packages = lib.mkOption {
       description = ''
         The packages to be installed in the TeX Live environment. It is a
@@ -54,7 +60,7 @@ in
       documents = pkgs.stdenvNoCC.mkDerivation {
         name = "documents";
         src = cfg.root;
-        nativeBuildInputs = [ (pkgs.texliveBasic.withPackages cfg.packages) ];
+        nativeBuildInputs = [ (cfg.scheme.withPackages cfg.packages) ];
         preBuild = "export TEXMFVAR=$(mktemp -d)";
       };
       packages = ps: [ ps.latexmk ];
