@@ -51,8 +51,8 @@ in
         defaultText = "self.outPath";
         type = lib.types.pathInStore;
       };
-      extraArgs = lib.mkOption {
-        description = "Extra arguments for `haskellPackages.developPackage`.";
+      args = lib.mkOption {
+        description = "The arguments passed to `haskellPackages.developPackage`.";
         default = { };
         type = with lib.types; attrsOf anything;
       };
@@ -74,9 +74,10 @@ in
 
       (lib.mkIf options.ecosystems.haskell.cabalPackage.name.isDefined {
         direnv.watchedFiles = [ "${cfg.cabalPackage.name}.cabal" ];
-        ecosystems.haskell.cabalPackage.drv = hPkgs.developPackage (
-          cfg.cabalPackage.extraArgs // { inherit (cfg.cabalPackage) name root; }
-        );
+        ecosystems.haskell.cabalPackage = {
+          args = { inherit (cfg.cabalPackage) name root; };
+          drv = hPkgs.developPackage cfg.cabalPackage.args;
+        };
         git.ignore = [
           "/cabal.project.local"
           "/cabal.project.local~"
