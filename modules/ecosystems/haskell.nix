@@ -9,6 +9,7 @@
 
 let
   cfg = config.ecosystems.haskell;
+  pkgCfg = cfg.cabalPackage;
 
   # Circumvent a bug in the interaction of Cabal and `shellFor`.
   # https://gist.github.com/ScottFreeCode/ef9f254e2dd91544bba4a068852fc81f
@@ -25,7 +26,7 @@ let
   hPkgs = pkgs.haskellPackages;
 
   ghcDevShell = hPkgs.shellFor {
-    packages = _: [ cfg.cabalPackage.drv ];
+    packages = _: [ pkgCfg.drv ];
     withHoogle = true;
     nativeBuildInputs = [ cabal-in-nix ];
   };
@@ -44,12 +45,11 @@ in
       };
       root = lib.mkOption {
         description = ''
-          The root directory of the package containing the package description.
+          The directory containing the package description; relative to the flake.
         '';
-        example = lib.literalExpression "./.";
-        default = root;
-        defaultText = "self.outPath";
-        type = lib.types.pathInStore;
+        default = ".";
+        type = lib.types.str;
+        apply = path: lib.removePrefix "./" (lib.path.subpath.normalise path);
       };
       args = lib.mkOption {
         description = "The arguments passed to `haskellPackages.developPackage`.";
@@ -73,12 +73,15 @@ in
       }
 
       (lib.mkIf options.ecosystems.haskell.cabalPackage.name.isDefined {
-        direnv.watchedFiles = [ "${cfg.cabalPackage.name}.cabal" ];
+        direnv.watchedFiles = [ "${pkgCfg.root}/${pkgCfg.name}.cabal" ];
         ecosystems.haskell.cabalPackage = {
-          args = { inherit (cfg.cabalPackage) name root; };
-          drv = hPkgs.developPackage cfg.cabalPackage.args;
+          args = {
+            inherit (pkgCfg) name;
+            root = root + "/" + pkgCfg.root;
+          };
+          drv = hPkgs.developPackage pkgCfg.args;
         };
-        git.ignore = [
+        git.ignore = map (p: "/" + pkgCfg.root + p) [
           "/cabal.project.local"
           "/cabal.project.local~"
           "/dist-*/"
