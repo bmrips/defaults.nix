@@ -2,9 +2,6 @@
   # The document
   "main.pdf"
 
-  # $TEXMFVAR
-  "/.texmf-var"
-
   ## Core latex/pdflatex auxiliary files:
   "*.aux"
   "*.lof"

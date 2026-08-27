@@ -61,17 +61,10 @@ in
         name = "documents";
         src = cfg.root;
         nativeBuildInputs = [ (cfg.scheme.withPackages cfg.packages) ];
-        preBuild = "export TEXMFVAR=$(mktemp -d)";
       };
       packages = ps: [ ps.latexmk ];
     };
 
-    make-shells.default = {
-      inputsFrom = [ cfg.documents ];
-      shellHook = ''
-        export TEXMFVAR=$PWD/.texmf-var
-        mkdir -p $TEXMFVAR
-      '';
-    };
+    make-shells.default.inputsFrom = [ cfg.documents ];
   };
 }
