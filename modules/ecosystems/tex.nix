@@ -13,11 +13,10 @@ in
   options.ecosystems.tex = {
     enable = lib.mkEnableOption "tools for TeX development";
     root = lib.mkOption {
-      description = "The root directory of the document.";
-      example = lib.literalExpression "./.";
-      default = root;
-      defaultText = "self.outPath";
-      type = lib.types.path;
+      description = "The directory of the documents relative to the flake.";
+      default = ".";
+      type = lib.types.str;
+      apply = path: lib.removePrefix "./" (lib.path.subpath.normalise path);
     };
     texliveEnv = lib.mkOption {
       description = "The TeX Live environment used for the build.";
@@ -41,6 +40,12 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    ecosystems.tex.documents = pkgs.stdenvNoCC.mkDerivation {
+      name = "documents";
+      src = root + "/" + cfg.root;
+      nativeBuildInputs = [ cfg.texliveEnv ];
+    };
+
     files.file."${cfg.root}/latexmkrc".text = /* perl */ ''
       $bibtex_use = 1.5; # cleanup .bbl files if all bib files exist
       $out2_dir = ".";
@@ -56,22 +61,18 @@ in
         "*.sty diff=tex"
         "*.tex diff=tex"
       ];
-      ignore = [
-        "build/"
-        "main.pdf"
-        "main.synctex"
-        "main.synctex.gz"
+      ignore = map (p: "/" + cfg.root + p) [
+        "/*.synctex"
+        "/*.synctex.gz"
+        "/*.pdf"
+        "/build/"
       ];
-    };
-    pre-commit.settings.hooks.chktex.enable = true;
-    treefmt.programs.latexindent.enable = true;
-
-    ecosystems.tex.documents = pkgs.stdenvNoCC.mkDerivation {
-      name = "documents";
-      src = cfg.root;
-      nativeBuildInputs = [ cfg.texliveEnv ];
     };
 
     make-shells.default.inputsFrom = [ cfg.documents ];
+
+    pre-commit.settings.hooks.chktex.enable = true;
+
+    treefmt.programs.latexindent.enable = true;
   };
 }
