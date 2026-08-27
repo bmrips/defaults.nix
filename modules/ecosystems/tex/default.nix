@@ -19,20 +19,17 @@ in
       defaultText = "self.outPath";
       type = lib.types.path;
     };
-    scheme = lib.mkOption {
-      description = "The scheme which is used as a base to add packages to.";
+    texliveEnvironment = lib.mkOption {
+      description = "The TeX Live environment used for the build.";
       default = pkgs.texliveBasic;
       defaultText = "pkgs.texliveBasic";
       type = lib.types.package;
-    };
-    packages = lib.mkOption {
-      description = ''
-        The packages to be installed in the TeX Live environment. It is a
-        function from the TeX Live package set to a list of packages.
-      '';
-      default = _: [ ];
-      defaultText = "_: []";
-      type = with lib.types; functionTo (listOf package);
+      apply =
+        env:
+        if lib.any (drv: drv.pname == "latexmk") env.includedTeXPackages then
+          env
+        else
+          env.withPackages (ps: [ ps.latexmk ]);
     };
     documents = lib.mkOption {
       description = ''
@@ -56,13 +53,10 @@ in
     pre-commit.settings.hooks.chktex.enable = true;
     treefmt.programs.latexindent.enable = true;
 
-    ecosystems.tex = {
-      documents = pkgs.stdenvNoCC.mkDerivation {
-        name = "documents";
-        src = cfg.root;
-        nativeBuildInputs = [ (cfg.scheme.withPackages cfg.packages) ];
-      };
-      packages = ps: [ ps.latexmk ];
+    ecosystems.tex.documents = pkgs.stdenvNoCC.mkDerivation {
+      name = "documents";
+      src = cfg.root;
+      nativeBuildInputs = [ cfg.texliveEnvironment ];
     };
 
     make-shells.default.inputsFrom = [ cfg.documents ];
