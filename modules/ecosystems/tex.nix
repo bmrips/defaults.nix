@@ -42,7 +42,11 @@ in
 
   config = lib.mkIf cfg.enable {
     files.file."${cfg.root}/latexmkrc".text = /* perl */ ''
-      $aux_dir = "build/";
+      $bibtex_use = 1.5; # cleanup .bbl files if all bib files exist
+      $out2_dir = ".";
+      $out_dir = "build/";
+      $pdf_mode = 1; # use PDFLaTeX
+      $warnings_as_errors = 1;
     '';
 
     git = {
