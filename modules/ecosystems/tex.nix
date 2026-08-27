@@ -61,7 +61,7 @@ in
         "*.sty diff=tex"
         "*.tex diff=tex"
       ];
-      ignore = map (p: "/" + cfg.root + p) [
+      ignore.${cfg.root} = [
         "/*.synctex"
         "/*.synctex.gz"
         "/*.pdf"

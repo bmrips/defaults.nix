@@ -13,11 +13,14 @@ in
       apply = lib.naturalSort;
     };
     ignore = lib.mkOption {
-      description = "Git ignore patterns, written to `.gitignore`.";
+      description = ''
+        Per-directory Git ignore patterns, written to `<key>/.gitignore`.
+        Refer to the root of the flake as `"/"`.
+      '';
       example = "/.pre-commit-config.yaml";
       default = [ ];
-      type = with lib.types; listOf str;
-      apply = lib.naturalSort;
+      type = with lib.types; attrsOf (listOf str);
+      apply = lib.mapAttrs (_: lib.naturalSort);
     };
     upstream = {
       host = lib.mkOption {
@@ -38,16 +41,22 @@ in
   };
 
   config = {
+
     files.file = {
       ".gitattributes".text = lib.concatLines cfg.attributes;
-      ".gitignore".text = lib.concatLines cfg.ignore;
-    };
+    }
+    // lib.mapAttrs' (dir: patterns: {
+      name = "${dir}/.gitignore";
+      value.text = lib.concatLines patterns;
+    }) cfg.ignore;
+
     git = {
       attributes = [ "* text=auto eol=lf" ];
-      ignore = [
+      ignore."." = [
         "result"
         "result-*"
       ];
     };
+
   };
 }

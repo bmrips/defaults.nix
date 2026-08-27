@@ -1,7 +1,7 @@
 { config, lib, ... }:
 
 lib.mkIf config.treefmt.programs.latexindent.enable {
-  git.ignore = map (p: "/" + config.ecosystems.tex.root + p) [
+  git.ignore.${config.ecosystems.tex.root} = [
     "/*.bak*"
     "/indent\.log"
   ];

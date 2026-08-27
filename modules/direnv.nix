@@ -29,6 +29,6 @@ in
       ++ [ "use flake .#default" ]
     );
 
-    git.ignore = [ "/.direnv/" ];
+    git.ignore."." = [ "/.direnv/" ];
   };
 }

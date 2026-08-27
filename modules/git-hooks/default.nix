@@ -27,7 +27,7 @@ lib.mkMerge [
   }
 
   (lib.mkIf config.pre-commit.settings.enable {
-    git.ignore = [ "/.pre-commit-config.yaml" ];
+    git.ignore."." = [ "/.pre-commit-config.yaml" ];
     make-shells.default.inputsFrom = [ config.pre-commit.devShell ];
   })
 

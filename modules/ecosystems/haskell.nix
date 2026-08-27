@@ -81,7 +81,7 @@ in
           };
           drv = hPkgs.developPackage pkgCfg.args;
         };
-        git.ignore = map (p: "/" + pkgCfg.root + p) [
+        git.ignore.${pkgCfg.root} = [
           "/cabal.project.local"
           "/cabal.project.local~"
           "/dist-*/"
