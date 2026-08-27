@@ -41,6 +41,10 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    files.file."${cfg.root}/latexmkrc".text = /* perl */ ''
+      $aux_dir = "build/";
+    '';
+
     git = {
       attributes = [
         "*.bib diff=bibtex"
@@ -48,7 +52,12 @@ in
         "*.sty diff=tex"
         "*.tex diff=tex"
       ];
-      ignore = import ./_gitignore.nix;
+      ignore = [
+        "build/"
+        "main.pdf"
+        "main.synctex"
+        "main.synctex.gz"
+      ];
     };
     pre-commit.settings.hooks.chktex.enable = true;
     treefmt.programs.latexindent.enable = true;
