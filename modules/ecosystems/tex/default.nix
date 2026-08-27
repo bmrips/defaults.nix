@@ -19,10 +19,10 @@ in
       defaultText = "self.outPath";
       type = lib.types.path;
     };
-    texliveEnvironment = lib.mkOption {
+    texliveEnv = lib.mkOption {
       description = "The TeX Live environment used for the build.";
-      default = pkgs.texliveBasic;
-      defaultText = "pkgs.texliveBasic";
+      default = pkgs.texliveFull;
+      defaultText = "pkgs.texliveFull";
       type = lib.types.package;
       apply =
         env:
@@ -56,7 +56,7 @@ in
     ecosystems.tex.documents = pkgs.stdenvNoCC.mkDerivation {
       name = "documents";
       src = cfg.root;
-      nativeBuildInputs = [ cfg.texliveEnvironment ];
+      nativeBuildInputs = [ cfg.texliveEnv ];
     };
 
     make-shells.default.inputsFrom = [ cfg.documents ];
