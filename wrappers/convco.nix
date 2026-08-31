@@ -23,7 +23,6 @@ in
     package = pkgs.convco;
 
     settings = lib.mapAttrsRecursive (_: lib.mkDefault) {
-      header = "# Changelog";
       types = [
         {
           type = "feat";
@@ -86,24 +85,6 @@ in
           hidden = true;
         }
       ];
-      preMajor = false;
-      commitUrlFormat = "{{@root.host}}/{{@root.owner}}/{{@root.repository}}/commit/{{hash}}";
-      compareUrlFormat = "{{@root.host}}/{{@root.owner}}/{{@root.repository}}/compare/{{previousTag}}...{{currentTag}}";
-      issueUrlFormat = "{{@root.host}}/{{@root.owner}}/{{@root.repository}}/issues/{{issue}}";
-      userUrlFormat = "{{host}}/{{user}}";
-      releaseCommitMessageFormat = "chore(release): {{currentTag}}";
-      issuePrefixes = [ "#" ];
-      host = null;
-      owner = null;
-      repository = null;
-      template = null;
-      commitTemplate = null;
-      scopeRegex = "^[[:alnum:]]+(?:[-_/][[:alnum:]]+)*$";
-      wrapDisabled = false;
-      linkCompare = true;
-      linkReferences = true;
-      merges = false;
-      firstParent = false;
       stripRegex = "(fixup|squash)! ";
     };
   };
