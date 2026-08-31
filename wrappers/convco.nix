@@ -68,7 +68,7 @@ in
           hidden = true;
         }
         {
-          type = "refactor";
+          type = "ref";
           increment = "None";
           section = "Other";
           hidden = true;
