@@ -29,6 +29,7 @@ in
     settings = {
       defaultIndent = "    ";
       removeTrailingWhitespace.beforeProcessing = true;
+      noAdditionalIndentGlobal.keyEqualsValuesBracesBrackets = true;
       modifyLineBreaks = {
         condenseMultipleBlankLinesInto = true;
         oneSentencePerLine.manipulateSentences = true;
