@@ -99,17 +99,12 @@ in
       template = null;
       commitTemplate = null;
       scopeRegex = "^[[:alnum:]]+(?:[-_/][[:alnum:]]+)*$";
-      lineLength = 50;
       wrapDisabled = false;
       linkCompare = true;
       linkReferences = true;
       merges = false;
       firstParent = false;
       stripRegex = "(fixup|squash)! ";
-      description.length = {
-        min = 10;
-        max = null;
-      };
     };
   };
 }
