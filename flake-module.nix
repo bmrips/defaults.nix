@@ -8,7 +8,6 @@ inputs:
     "${inputs.make-shell}/flake-module.nix"
     "${inputs.pre-commit}/flake-module.nix"
     "${inputs.treefmt}/flake-module.nix"
-    "${inputs.wrappers}/parts.nix"
   ];
 
   perSystem = { system, ... }: {
