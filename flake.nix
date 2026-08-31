@@ -41,7 +41,6 @@
           watchedFiles = [ "flake-module.nix" ];
         };
         ecosystems.github.enable = true;
-        git.upstream.repository = "defaults";
       };
     };
 }
