@@ -39,7 +39,7 @@ in
         {
           type = "build";
           increment = "None";
-          section = "Other";
+          section = "Build";
           hidden = true;
         }
         {
