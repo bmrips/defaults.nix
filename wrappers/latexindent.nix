@@ -92,6 +92,18 @@ in
           VerbatimEndFinishesWithLineBreak = 1;
         };
       };
+      fineTuning.modifyLineBreaks.betterFullStop = ''
+        (?x)                # ignore spaces and comments in the below
+        \.                  # .
+        (?!                 # not *followed by*
+          (?:               #
+              [a-zA-Z0-9]   # letters or digits
+            | \\@           # \@
+            | \),           # ),
+            | \)\.          # ).
+          )                 #
+        )                   #
+      '';
     };
   };
 }
