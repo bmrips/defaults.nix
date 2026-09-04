@@ -73,9 +73,9 @@ in
         };
       };
 
-      workflowFile = (yaml.generate "github-workflow-${name}.yaml" workflow).overrideAttrs (oldAttrs: {
+      workflowFile = (yaml.generate "github-workflow-${name}.yaml" workflow).overrideAttrs (old: {
         buildCommand = ''
-          ${oldAttrs.buildCommand}
+          ${old.buildCommand}
           ${lib.getExe defaultsPkgs.actionlint} $out
           ${lib.getExe defaultsPkgs.zizmor} $out
           ${lib.getExe defaultsPkgs.yamlfmt} $out
