@@ -2,12 +2,11 @@
   config,
   defaultsPkgs,
   lib,
-  pkgs,
   ...
 }:
 
 let
-  yaml = pkgs.formats.yaml_1_2 { };
+  yaml = defaultsPkgs.formats.yaml_1_2 { };
   name = "nix-flake-check";
 in
 {

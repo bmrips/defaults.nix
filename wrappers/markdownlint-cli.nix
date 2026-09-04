@@ -1,5 +1,6 @@
 {
   config,
+  defaultsPkgs,
   lib,
   pkgs,
   wlib,
@@ -7,7 +8,7 @@
 }:
 
 let
-  yaml = pkgs.formats.yaml_1_2 { };
+  yaml = defaultsPkgs.formats.yaml_1_2 { };
 in
 {
   imports = [ wlib.modules.default ];

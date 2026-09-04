@@ -33,6 +33,7 @@
       flake.flakeModule = flakeModule;
 
       perSystem = {
+        imports = [ ./pkgs-lib.nix ];
         direnv = {
           watchedDirectories = [
             "modules/"

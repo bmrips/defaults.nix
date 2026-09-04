@@ -12,7 +12,7 @@ inputs:
 
   perSystem = { system, ... }: {
     _module.args = {
-      defaultsPkgs = inputs.self.packages.${system};
+      defaultsPkgs = inputs.self.packages.${system} // inputs.self.legacyPackages.${system};
       root = self.outPath;
     };
     imports = inputs.import-tree.leafs ./modules;

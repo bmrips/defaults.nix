@@ -14,7 +14,11 @@ let
     in
     {
       ${name} = { pkgs, ... }: {
-        _module.args.defaultsPkgs = self.packages.${pkgs.stdenv.hostPlatform.system};
+        _module.args.defaultsPkgs =
+          let
+            inherit (pkgs.stdenv.hostPlatform) system;
+          in
+          self.packages.${system} // self.legacyPackages.${system};
         imports = [ path' ];
       };
     };
