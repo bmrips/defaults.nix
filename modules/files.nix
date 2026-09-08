@@ -1,8 +1,6 @@
 { config, lib, ... }:
 
 {
-  files.writer.app = true;
-
   make-shells.default.shellHook = lib.getExe config.files.writer.drv;
 
   pre-commit.settings.hooks.write-files = {
