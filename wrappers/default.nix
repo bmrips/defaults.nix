@@ -1,9 +1,4 @@
-{
-  inputs,
-  lib,
-  self,
-  ...
-}:
+{ inputs, lib, ... }:
 
 let
   importModule =
@@ -13,14 +8,7 @@ let
       path' = ./. + "/${path}";
     in
     {
-      ${name} = { pkgs, ... }: {
-        _module.args.defaultsPkgs =
-          let
-            inherit (pkgs.stdenv.hostPlatform) system;
-          in
-          self.packages.${system} // self.legacyPackages.${system};
-        imports = [ path' ];
-      };
+      ${name}.imports = [ path' ];
     };
 in
 {

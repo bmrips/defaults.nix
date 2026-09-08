@@ -32,6 +32,15 @@
 
       flake.flakeModule = flakeModule;
 
+      flake.overlays.default =
+        self: super:
+        let
+          inherit (self.stdenv.hostPlatform) system;
+          packages = inputs.self.packages.${system};
+          legacyPackages = inputs.self.legacyPackages.${system};
+        in
+        super // { defaults = packages // legacyPackages; };
+
       perSystem = {
         imports = [ ./pkgs-lib.nix ];
         direnv = {

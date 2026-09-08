@@ -12,7 +12,10 @@ inputs:
 
   perSystem = { system, ... }: {
     _module.args = {
-      defaultsPkgs = inputs.self.packages.${system} // inputs.self.legacyPackages.${system};
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        overlays = [ inputs.self.overlays.default ];
+      };
       root = self.outPath;
     };
     imports = inputs.import-tree.leafs ./modules;

@@ -1,9 +1,9 @@
 # Integrate with git-hooks.nix and treefmt.nix
 
 {
-  defaultsPkgs,
   lib,
   options,
+  pkgs,
   ...
 }:
 
@@ -13,7 +13,7 @@ let
   formatters = (options.treefmt.type.getSubOptions [ ]).programs;
 in
 {
-  pre-commit.settings.hooks = lib.pipe defaultsPkgs [
+  pre-commit.settings.hooks = lib.pipe pkgs.defaults [
     (builtins.intersectAttrs git-hooks)
     (lib.mapAttrs (
       _hook: wrapper: {
@@ -24,7 +24,7 @@ in
     ))
   ];
 
-  treefmt.programs = lib.pipe defaultsPkgs [
+  treefmt.programs = lib.pipe pkgs.defaults [
     (builtins.intersectAttrs formatters)
     (lib.mapAttrs (_hook: wrapper: { package = lib.mkDefault wrapper; }))
   ];

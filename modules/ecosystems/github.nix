@@ -1,12 +1,12 @@
 {
   config,
-  defaultsPkgs,
+  pkgs,
   lib,
   ...
 }:
 
 let
-  yaml = defaultsPkgs.formats.yaml_1_2 { };
+  yaml = pkgs.defaults.formats.yaml_1_2 { };
   name = "nix-flake-check";
 in
 {
@@ -75,9 +75,9 @@ in
       workflowFile = (yaml.generate "github-workflow-${name}.yaml" workflow).overrideAttrs (old: {
         buildCommand = ''
           ${old.buildCommand}
-          ${lib.getExe defaultsPkgs.actionlint} $out
-          ${lib.getExe defaultsPkgs.zizmor} $out
-          ${lib.getExe defaultsPkgs.yamlfmt} $out
+          ${lib.getExe pkgs.defaults.actionlint} $out
+          ${lib.getExe pkgs.defaults.zizmor} $out
+          ${lib.getExe pkgs.defaults.yamlfmt} $out
         '';
       });
     in
@@ -90,7 +90,7 @@ in
         actionlint.enable = true;
         zizmor = {
           enable = true;
-          package = defaultsPkgs.zizmor.wrap {
+          package = pkgs.defaults.zizmor.wrap {
             settings.rules.ref-version-mismatch.ignore = [ "${name}.yaml" ];
           };
         };

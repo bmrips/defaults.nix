@@ -1,6 +1,5 @@
 {
   config,
-  defaultsPkgs,
   lib,
   pkgs,
   ...
@@ -13,7 +12,7 @@
     ecosystems.yaml.enable = true; # for `.sops.yaml`
     make-shells.default.packages = [
       pkgs.sops
-      (defaultsPkgs.git.wrap { settings.diff.sops.textconv = "sops decrypt"; })
+      (pkgs.defaults.git.wrap { settings.diff.sops.textconv = "sops decrypt"; })
     ];
   };
 }
