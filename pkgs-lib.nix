@@ -26,4 +26,19 @@
 
       type = lib.types.serializableValueWith { typeName = "YAML 1.2"; };
     };
+
+  # Enable shellcheck's optional checks as configured in its wrapper.
+  legacyPackages.writeShellApplication =
+    let
+      optionalChecks = pkgs.defaults.shellcheck.configuration.settings.enable;
+    in
+    args:
+    pkgs.writeShellApplication (
+      args
+      // {
+        extraShellCheckFlags = args.extraShellCheckFlags or [ ] ++ [
+          "--enable=${lib.concatStringsSep "," optionalChecks}"
+        ];
+      }
+    );
 }
