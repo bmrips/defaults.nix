@@ -1,7 +1,9 @@
 { config, lib, ... }:
 
 {
-  make-shells.default.shellHook = lib.getExe config.files.writer.drv;
+  make-shells.default.shellHook = lib.mkIf (config.files.file != { }) (
+    lib.getExe config.files.writer.drv
+  );
 
   pre-commit.settings.hooks.write-files = {
     enable = config.files.file != { };
