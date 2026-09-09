@@ -20,6 +20,15 @@ in
       type = lib.types.str;
       apply = path: lib.removePrefix "./" (lib.path.subpath.normalise path);
     };
+    engine = lib.mkOption {
+      description = "The LaTeX engine to compile the documents with.";
+      default = "pdflatex";
+      type = lib.types.enum [
+        "pdflatex"
+        "xelatex"
+        "lualatex"
+      ];
+    };
     texliveEnv = lib.mkOption {
       description = "The TeX Live environment used for the build.";
       default = pkgs.texliveFull;
@@ -42,19 +51,33 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    ecosystems.tex.documents = pkgs.stdenvNoCC.mkDerivation {
-      name = "documents";
-      src = root + "/" + cfg.root;
-      nativeBuildInputs = [ cfg.texliveEnv ];
-    };
+    ecosystems.tex.documents = pkgs.stdenvNoCC.mkDerivation (
+      {
+        name = "documents";
+        src = root + "/" + cfg.root;
+        nativeBuildInputs = [ cfg.texliveEnv ];
+      }
+      // lib.optionalAttrs (cfg.engine == "lualatex") {
+        preBuild = "export TEXMFVAR=$(mktemp -d)";
+      }
+    );
 
-    files.file."${cfg.root}/latexmkrc".text = /* perl */ ''
-      $bibtex_use = 1.5; # cleanup .bbl files if all bib files exist
-      $out2_dir = ".";
-      $out_dir = "build/";
-      $pdf_mode = 1; # use PDFLaTeX
-      $warnings_as_errors = 1;
-    '';
+    files.file."${cfg.root}/latexmkrc".text =
+      let
+        pdfMode = {
+          pdflatex = 1;
+          xelatex = 5;
+          lualatex = 4;
+        };
+      in
+      # perl
+      ''
+        $bibtex_use = 1.5; # cleanup .bbl files if all bib files exist
+        $out2_dir = ".";
+        $out_dir = "build/";
+        $pdf_mode = ${toString pdfMode.${cfg.engine}}; # use ${cfg.engine}
+        $warnings_as_errors = 1;
+      '';
 
     git = {
       attributes = [
@@ -64,14 +87,23 @@ in
         "*.tex diff=tex"
       ];
       ignore.${cfg.root} = [
+        "/*.pdf"
         "/*.synctex"
         "/*.synctex.gz"
-        "/*.pdf"
         "/build/"
+      ]
+      ++ lib.optionals (cfg.engine == "lualatex") [
+        "/.texmf-var"
       ];
     };
 
-    make-shells.default.inputsFrom = [ cfg.documents ];
+    make-shells.default = {
+      inputsFrom = [ cfg.documents ];
+      shellHook = lib.mkIf (cfg.engine == "lualatex") ''
+        export TEXMFVAR=$PWD/${cfg.root}/.texmf-var
+        mkdir -p $TEXMFVAR
+      '';
+    };
 
     pre-commit.settings.hooks.chktex.enable = true;
 
