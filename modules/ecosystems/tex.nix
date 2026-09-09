@@ -13,7 +13,9 @@ in
   options.ecosystems.tex = {
     enable = lib.mkEnableOption "tools for TeX development";
     root = lib.mkOption {
-      description = "The directory of the documents relative to the flake.";
+      description = ''
+        The directory of the documents relative to the git repository root.
+      '';
       default = ".";
       type = lib.types.str;
       apply = path: lib.removePrefix "./" (lib.path.subpath.normalise path);

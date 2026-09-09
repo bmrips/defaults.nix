@@ -45,7 +45,8 @@ in
       };
       root = lib.mkOption {
         description = ''
-          The directory containing the package description; relative to the flake.
+          The directory containing the package description; relative to the git
+          repository root.
         '';
         default = ".";
         type = lib.types.str;

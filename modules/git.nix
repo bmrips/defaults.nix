@@ -15,7 +15,7 @@ in
     ignore = lib.mkOption {
       description = ''
         Per-directory Git ignore patterns, written to `<key>/.gitignore`.
-        Refer to the root of the flake as `"/"`.
+        Refer to the root of the git repository as `"."`.
       '';
       example = "/.pre-commit-config.yaml";
       default = [ ];
