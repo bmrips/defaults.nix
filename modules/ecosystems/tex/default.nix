@@ -75,6 +75,8 @@ in
 
     pre-commit.settings.hooks.chktex.enable = true;
 
+    templates."${cfg.root}/Makefile" = ./Makefile;
+
     treefmt.programs.latexindent.enable = true;
   };
 }
