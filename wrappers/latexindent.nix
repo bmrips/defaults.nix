@@ -51,7 +51,14 @@ in
           FiFinishesWithLineBreak = 1;
         };
         optionalArguments.LSqBStartsOnOwnLine = -1;
-        mandatoryArguments.LCuBStartsOnOwnLine = -1;
+        mandatoryArguments = {
+          LCuBStartsOnOwnLine = -1;
+          footnote = {
+            MandArgBodyStartsOnOwnLine = 1;
+            RSqBStartsOnOwnLine = 1;
+            RSqBFinishesWithLineBreak = 1;
+          };
+        };
         keyEqualsValuesBracesBrackets.EqualsStartsOnOwnLine = -1;
         items.ItemStartsOnOwnLine = 1;
         specialBeginEnd = {
