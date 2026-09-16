@@ -79,6 +79,7 @@ in
         (?!                 # not *followed by*
           (?:               #
               [a-zA-Z0-9]   # letters or digits
+            | \\,           # \,
             | \\@           # \@
             | \),           # ),
             | \)\.          # ).
