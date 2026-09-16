@@ -59,6 +59,7 @@ in
             RSqBFinishesWithLineBreak = 1;
           };
         };
+        commands.label.CommandStartsOnOwnLine = 2;
         keyEqualsValuesBracesBrackets.EqualsStartsOnOwnLine = -1;
         items.ItemStartsOnOwnLine = 1;
         specialBeginEnd = {
