@@ -32,7 +32,7 @@ in
     // lib.mapAttrs' (dir: patterns: {
       name = "${dir}/.gitignore";
       value.text = lib.concatLines patterns;
-    }) cfg.ignore;
+    }) (lib.filterAttrs (_: v: v != [ ]) cfg.ignore);
 
     git = {
       attributes = [ "* text=auto eol=lf" ];
