@@ -6,7 +6,6 @@
   };
 
   config = lib.mkIf config.ecosystems.nix.enable {
-    ecosystems.toml.enable = true; # for statix.toml
     pre-commit.settings.hooks = {
       deadnix.enable = true;
       statix.enable = true;

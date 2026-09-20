@@ -1,12 +1,20 @@
 {
   config,
+  dlib,
   lib,
   pkgs,
   ...
 }:
 
 {
-  options.ecosystems.c.enable = lib.mkEnableOption "tools for C development";
+  options.ecosystems.c.enable = lib.mkEnableOption "tools for C development" // {
+    default = dlib.hasFileWithExtension [
+      "c"
+      "c++"
+      "cpp"
+      "h"
+    ];
+  };
 
   config = lib.mkIf config.ecosystems.c.enable {
     git.attributes = [

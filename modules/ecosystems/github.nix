@@ -1,7 +1,8 @@
 {
   config,
-  pkgs,
+  dlib,
   lib,
+  pkgs,
   ...
 }:
 
@@ -11,7 +12,9 @@ let
 in
 {
   options.ecosystems.github = {
-    enable = lib.mkEnableOption "tools for GitHub development";
+    enable = lib.mkEnableOption "tools for GitHub development" // {
+      default = dlib.hasDirectory ".github";
+    };
 
     workflows.${name} =
       let

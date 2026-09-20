@@ -1,5 +1,6 @@
 {
   config,
+  dlib,
   lib,
   pkgs,
   ...
@@ -10,7 +11,9 @@ let
 in
 {
   options.ecosystems.java = {
-    enable = lib.mkEnableOption "tools for Java development";
+    enable = lib.mkEnableOption "tools for Java development" // {
+      default = dlib.hasFileWithExtension "java";
+    };
     withJavaFX = lib.mkEnableOption "JavaFX";
   };
 

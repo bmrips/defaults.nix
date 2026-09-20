@@ -1,7 +1,17 @@
-{ config, lib, ... }:
+{
+  config,
+  dlib,
+  lib,
+  ...
+}:
 
 {
-  options.ecosystems.markdown.enable = lib.mkEnableOption "tools for Markdown development";
+  options.ecosystems.markdown.enable = lib.mkEnableOption "tools for Markdown development" // {
+    default = dlib.hasFileWithExtension [
+      "markdown"
+      "md"
+    ];
+  };
 
   config = lib.mkIf config.ecosystems.markdown.enable {
     git.attributes = [

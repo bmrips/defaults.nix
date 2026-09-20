@@ -1,5 +1,6 @@
 {
   config,
+  dlib,
   lib,
   options,
   pkgs,
@@ -33,7 +34,12 @@ let
 in
 {
   options.ecosystems.haskell = {
-    enable = lib.mkEnableOption "tools for Haskell development";
+    enable = lib.mkEnableOption "tools for Haskell development" // {
+      default = dlib.hasFileWithExtension [
+        "cabal"
+        "hs"
+      ];
+    };
     cabalPackage = {
       name = lib.mkOption {
         description = ''

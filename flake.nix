@@ -50,7 +50,6 @@
           ];
           watchedFiles = [ "flake-module.nix" ];
         };
-        ecosystems.github.enable = true;
       };
     };
 }

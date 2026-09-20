@@ -1,5 +1,6 @@
 {
   config,
+  dlib,
   lib,
   pkgs,
   root,
@@ -11,7 +12,9 @@ let
 in
 {
   options.ecosystems.tex = {
-    enable = lib.mkEnableOption "tools for TeX development";
+    enable = lib.mkEnableOption "tools for TeX development" // {
+      default = dlib.hasFileWithExtension "tex";
+    };
     root = lib.mkOption {
       description = ''
         The directory of the documents relative to the git repository root.

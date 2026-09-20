@@ -1,11 +1,17 @@
 {
   config,
+  dlib,
   lib,
   ...
 }:
 
 {
-  options.ecosystems.bash.enable = lib.mkEnableOption "tools for Bash development";
+  options.ecosystems.bash.enable = lib.mkEnableOption "tools for Bash development" // {
+    default = dlib.hasFileWithExtension [
+      "bash"
+      "sh"
+    ];
+  };
 
   config = lib.mkIf config.ecosystems.bash.enable {
     git.attributes = [
