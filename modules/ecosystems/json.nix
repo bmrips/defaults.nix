@@ -13,7 +13,7 @@ in
 
   config = lib.mkIf cfg.enable {
     make-shells.default.packages = [ pkgs.jq ];
-    pre-commit.settings.hooks.check-json5.enable = true;
+    pre-commit.settings.hooks.check-json.enable = true;
     treefmt.programs.oxfmt.enable = true;
   };
 }
