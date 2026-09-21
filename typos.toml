@@ -1,7 +1,2 @@
 [default.extend-words]
 leafs = "leafs"
-
-[files]
-extend-exclude = [
-  "modules/ecosystems/tex/_gitignore.nix",
-]
