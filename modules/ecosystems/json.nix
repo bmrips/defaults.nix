@@ -15,21 +15,22 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    make-shells.default.packages = [ pkgs.jq ];
+    make-shells.default.packages = [ pkgs.jaq ];
     pre-commit.settings.hooks.check-json.enable = true;
 
-    treefmt.settings.formatter.jq = {
+    treefmt.settings.formatter.jaq = {
       includes = [ "*.json" ];
+      # jaq supports in-place output but _always_ writes.
       command = pkgs.defaults.writeShellApplication {
-        name = "jq-wrapper";
+        name = "jaq-wrapper";
         derivationArgs = {
           allowSubstitutes = false;
           preferLocalBuild = true;
         };
-        runtimeInputs = [ pkgs.jq ];
+        runtimeInputs = [ pkgs.jaq ];
         text = /* bash */ ''
           for file in "$@"; do
-            formatted=$(jq . "$file")
+            formatted=$(jaq --sort-keys . "$file")
             original=$(<"$file")
             if [[ "$formatted" != "$original" ]]; then
               echo "$formatted" >"$file"
