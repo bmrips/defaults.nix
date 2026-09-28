@@ -19,6 +19,6 @@ inputs:
       };
       root = self.outPath;
     };
-    imports = inputs.import-tree.leafs ./modules;
+    imports = inputs.import-tree.leaves ./modules;
   };
 }
