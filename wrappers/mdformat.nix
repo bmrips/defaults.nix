@@ -16,7 +16,6 @@
 
     # `passthru` is not preserved by default. See
     # https://github.com/BirdeeHub/nix-wrapper-modules/issues/599
-
     passthru.withPlugins =
       selector:
       let
