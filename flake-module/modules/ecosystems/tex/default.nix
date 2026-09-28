@@ -108,10 +108,10 @@ in
       '';
     };
 
-    pre-commit.settings.hooks.chktex.enable = true;
+    pre-commit.settings.hooks.chktex.enable = dlib.mkDefault true;
 
     templates."${cfg.root}/Makefile" = ./Makefile;
 
-    treefmt.programs.latexindent.enable = true;
+    treefmt.programs.latexindent.enable = dlib.mkDefault true;
   };
 }

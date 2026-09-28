@@ -11,7 +11,7 @@
   };
 
   config = lib.mkIf config.ecosystems.xml.enable {
-    pre-commit.settings.hooks.check-xml.enable = true;
-    treefmt.programs.xmllint.enable = true;
+    pre-commit.settings.hooks.check-xml.enable = dlib.mkDefault true;
+    treefmt.programs.xmllint.enable = dlib.mkDefault true;
   };
 }

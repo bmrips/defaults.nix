@@ -1,5 +1,6 @@
 {
   config,
+  dlib,
   lib,
   pkgs,
   wlib,
@@ -21,10 +22,10 @@ in
   config = {
     flags = {
       "--conf" = lib.mkIf (config.settings != { }) (yaml.generate "yamlfmt.yaml" config.settings);
-      "--no_global_conf" = lib.mkDefault true;
+      "--no_global_conf" = dlib.mkDefault true;
     };
     package = pkgs.yamlfmt;
-    settings.formatter = lib.mapAttrsRecursive (_: lib.mkDefault) {
+    settings.formatter = dlib.mkDefault {
       force_array_style = "block";
       force_quote_style = "double";
       pad_line_comments = 2;

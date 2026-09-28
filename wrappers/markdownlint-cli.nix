@@ -1,5 +1,6 @@
 {
   config,
+  dlib,
   lib,
   pkgs,
   wlib,
@@ -23,6 +24,6 @@ in
       yaml.generate "markdownlint.yaml" config.settings
     );
     package = pkgs.markdownlint-cli;
-    settings.line_length = lib.mkDefault false;
+    settings.line_length = dlib.mkDefault false;
   };
 }

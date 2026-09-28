@@ -1,5 +1,6 @@
 {
   config,
+  dlib,
   lib,
   pkgs,
   wlib,
@@ -23,7 +24,7 @@ in
       yaml.generate "yamllint.yaml" config.settings
     );
     package = pkgs.yamllint;
-    settings = lib.mapAttrsRecursive (_: lib.mkDefault) {
+    settings = dlib.mkDefault {
       extends = "default";
       rules = {
         document-start = "disable";

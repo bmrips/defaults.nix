@@ -11,7 +11,7 @@
   };
 
   config = lib.mkIf config.ecosystems.lua.enable {
-    pre-commit.settings.hooks.selene.enable = true;
-    treefmt.programs.stylua.enable = true;
+    pre-commit.settings.hooks.selene.enable = dlib.mkDefault true;
+    treefmt.programs.stylua.enable = dlib.mkDefault true;
   };
 }

@@ -1,5 +1,5 @@
-{ pkgs, ... }:
+{ dlib, pkgs, ... }:
 
 {
-  make-shells.default.stdenv = pkgs.stdenvNoCC;
+  make-shells.default.stdenv = dlib.mkDefault pkgs.stdenvNoCC;
 }

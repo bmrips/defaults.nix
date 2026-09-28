@@ -1,5 +1,6 @@
 {
   config,
+  dlib,
   lib,
   pkgs,
   wlib,
@@ -24,6 +25,6 @@ in
       (toml.generate "taplo.toml" config.settings)
     ];
     package = pkgs.taplo;
-    settings.formatting.array_auto_collapse = lib.mkDefault false;
+    settings.formatting.array_auto_collapse = dlib.mkDefault false;
   };
 }

@@ -1,5 +1,6 @@
 {
   config,
+  dlib,
   lib,
   pkgs,
   wlib,
@@ -23,7 +24,7 @@ in
       yaml.generate "fourmolu.yaml" config.settings
     );
     package = pkgs.fourmolu;
-    settings = lib.mapAttrsRecursive (_: lib.mkDefault) {
+    settings = dlib.mkDefault {
       column-limit = 80;
       haddock-style = "single-line";
       import-grouping = "by-scope";

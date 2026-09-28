@@ -19,6 +19,6 @@ in
 
   config = lib.mkIf cfg.enable {
     make-shells.default.packages = [ (pkgs.openjdk.override { enableJavaFX = cfg.withJavaFX; }) ];
-    treefmt.programs.google-java-format.enable = true;
+    treefmt.programs.google-java-format.enable = dlib.mkDefault true;
   };
 }

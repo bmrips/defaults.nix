@@ -16,7 +16,7 @@ in
 
   config = lib.mkIf cfg.enable {
     make-shells.default.packages = [ pkgs.jaq ];
-    pre-commit.settings.hooks.check-json.enable = true;
+    pre-commit.settings.hooks.check-json.enable = dlib.mkDefault true;
 
     treefmt.settings.formatter.jaq = {
       includes = [ "*.json" ];

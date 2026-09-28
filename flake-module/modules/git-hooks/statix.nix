@@ -1,3 +1,5 @@
+{ dlib, ... }:
+
 {
-  pre-commit.settings.hooks.statix.settings.format = "stderr";
+  pre-commit.settings.hooks.statix.settings.format = dlib.mkDefault "stderr";
 }

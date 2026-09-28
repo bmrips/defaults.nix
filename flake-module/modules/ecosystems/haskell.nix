@@ -75,8 +75,8 @@ in
     lib.mkMerge [
 
       {
-        pre-commit.settings.hooks.hlint.enable = true;
-        treefmt.programs.fourmolu.enable = true;
+        pre-commit.settings.hooks.hlint.enable = dlib.mkDefault true;
+        treefmt.programs.fourmolu.enable = dlib.mkDefault true;
       }
 
       (lib.mkIf options.ecosystems.haskell.cabalPackage.name.isDefined {
@@ -95,7 +95,7 @@ in
           "/dist/"
         ];
         make-shells.default.inputsFrom = [ ghcDevShell ];
-        treefmt.programs.cabal-gild.enable = true;
+        treefmt.programs.cabal-gild.enable = dlib.mkDefault true;
       })
 
     ]

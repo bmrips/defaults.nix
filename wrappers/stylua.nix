@@ -1,5 +1,6 @@
 {
   config,
+  dlib,
   lib,
   pkgs,
   wlib,
@@ -23,7 +24,7 @@ in
       toml.generate "stylua.toml" config.settings
     );
     package = pkgs.stylua;
-    settings = lib.mapAttrsRecursive (_: lib.mkDefault) {
+    settings = dlib.mkDefault {
       call_parentheses = "None";
       column_width = 100;
       indent_type = "Spaces";
