@@ -26,7 +26,7 @@ in
     };
     package = pkgs.texlivePackages.latexindent;
 
-    settings = {
+    settings = lib.mapAttrsRecursive (_: lib.mkDefault) {
       defaultIndent = "    ";
       removeTrailingWhitespace.beforeProcessing = true;
       noAdditionalIndentGlobal.keyEqualsValuesBracesBrackets = true;
