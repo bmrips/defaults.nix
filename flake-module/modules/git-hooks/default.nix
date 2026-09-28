@@ -8,8 +8,6 @@
 lib.mkMerge [
 
   {
-    ecosystems.toml.enable = true; # for typos.toml
-
     pre-commit.settings = {
       package = pkgs.prek;
       hooks = {
