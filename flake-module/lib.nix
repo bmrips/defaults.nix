@@ -1,12 +1,9 @@
-{
-  dlib,
-  lib,
-  root,
-  ...
-}:
+{ lib, self, ... }:
 
-{
-  _module.args.dlib = {
+let
+  root = self.outPath;
+
+  dlib = {
 
     hasDirectory = path: lib.filesystem.pathIsDirectory "${root}/${path}";
 
@@ -24,4 +21,8 @@
     hasFileWithExtension = exts: dlib.hasFileWith (dlib.hasExtension exts);
 
   };
+in
+{
+  _module.args.dlib = dlib;
+  perSystem._module.args.dlib = dlib;
 }

@@ -20,7 +20,7 @@
   outputs =
     inputs:
     let
-      flakeModule = import ./flake-module.nix inputs;
+      flakeModule = import ./flake-module inputs;
     in
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
@@ -43,13 +43,10 @@
 
       perSystem = {
         imports = [ ./pkgs-lib.nix ];
-        direnv = {
-          watchedDirectories = [
-            "modules/"
-            "wrappers/"
-          ];
-          watchedFiles = [ "flake-module.nix" ];
-        };
+        direnv.watchedDirectories = [
+          "flake-module/"
+          "wrappers/"
+        ];
       };
     };
 }
