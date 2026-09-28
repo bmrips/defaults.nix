@@ -13,7 +13,7 @@
     pre-commit.flake = false;
     treefmt.url = "github:numtide/treefmt-nix";
     treefmt.flake = false;
-    wrappers.url = "github:BirdeeHub/nix-wrapper-modules";
+    wrappers.url = "github:nix-community/nix-wrapper-modules";
     wrappers.flake = false;
   };
 
