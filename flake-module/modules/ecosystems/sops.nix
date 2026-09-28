@@ -14,7 +14,7 @@
   config = lib.mkIf config.ecosystems.sops.enable {
     make-shells.default.packages = [
       pkgs.sops
-      (pkgs.defaults.git.wrap { settings.diff.sops.textconv = "sops decrypt"; })
+      (pkgs.defaults.git.wrap { settings.diff.sops.textconv = dlib.mkDefault "sops decrypt"; })
     ];
   };
 }

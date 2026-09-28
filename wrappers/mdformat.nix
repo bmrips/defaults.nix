@@ -1,5 +1,6 @@
 {
   config,
+  dlib,
   lib,
   options,
   pkgs,
@@ -11,7 +12,7 @@
   imports = [ wlib.modules.default ];
 
   config = {
-    flags."--wrap" = lib.mkDefault "no";
+    flags."--wrap" = dlib.mkDefault "no";
     package = pkgs.mdformat;
 
     # `passthru` is not preserved by default. See

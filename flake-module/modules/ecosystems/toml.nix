@@ -11,7 +11,7 @@
   };
 
   config = lib.mkIf config.ecosystems.toml.enable {
-    pre-commit.settings.hooks.check-toml.enable = true;
-    treefmt.programs.taplo.enable = true;
+    pre-commit.settings.hooks.check-toml.enable = dlib.mkDefault true;
+    treefmt.programs.taplo.enable = dlib.mkDefault true;
   };
 }

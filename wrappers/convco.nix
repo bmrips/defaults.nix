@@ -1,5 +1,6 @@
 {
   config,
+  dlib,
   lib,
   pkgs,
   wlib,
@@ -22,7 +23,7 @@ in
     flags."--config" = lib.mkIf (config.settings != { }) (yaml.generate "convco.yaml" config.settings);
     package = pkgs.convco;
 
-    settings = lib.mapAttrsRecursive (_: lib.mkDefault) {
+    settings = dlib.mkDefault {
       types = [
         {
           type = "feat";

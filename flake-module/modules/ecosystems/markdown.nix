@@ -18,7 +18,7 @@
       "*.md diff=markdown"
       "*.markdown diff=markdown"
     ];
-    pre-commit.settings.hooks.markdownlint.enable = true;
-    treefmt.programs.mdformat.enable = true;
+    pre-commit.settings.hooks.markdownlint.enable = dlib.mkDefault true;
+    treefmt.programs.mdformat.enable = dlib.mkDefault true;
   };
 }

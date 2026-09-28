@@ -85,17 +85,24 @@ in
       });
     in
     lib.mkIf config.ecosystems.github.enable {
-      ecosystems.yaml.enable = true;
+      ecosystems.yaml.enable = dlib.mkDefault true;
 
       files.file.".github/workflows/${name}.yaml".source = workflowFile;
 
-      pre-commit.settings.hooks = {
+      pre-commit.settings.hooks = dlib.mkDefault {
         actionlint.enable = true;
         zizmor = {
           enable = true;
-          package = pkgs.defaults.zizmor.wrap {
-            settings.rules.ref-version-mismatch.ignore = [ "${name}.yaml" ];
-          };
+          package =
+            let
+              # We need an even higher priority here since the package is
+              # implicitly set by the wrappers integration already.
+              prio = (dlib.defaultOverridePriority - lib.modules.defaultOverridePriority) / 2;
+              package = pkgs.defaults.zizmor.wrap {
+                settings.rules.ref-version-mismatch.ignore = [ "${name}.yaml" ];
+              };
+            in
+            lib.mkOverride prio package;
         };
       };
     };

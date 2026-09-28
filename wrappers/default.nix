@@ -1,4 +1,9 @@
-{ inputs, lib, ... }:
+{
+  inputs,
+  dlib,
+  lib,
+  ...
+}:
 
 let
   importModule =
@@ -8,7 +13,10 @@ let
       path' = ./. + "/${path}";
     in
     {
-      ${name}.imports = [ path' ];
+      ${name} = {
+        _module.args.dlib = dlib;
+        imports = [ path' ];
+      };
     };
 in
 {

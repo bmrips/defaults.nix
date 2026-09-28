@@ -1,5 +1,6 @@
 {
   config,
+  dlib,
   lib,
   pkgs,
   wlib,
@@ -28,7 +29,7 @@
       in
       lib.mkIf (config.settings != { }) (pkgs.writeText "stylua.toml" text);
     package = pkgs.shellcheck;
-    settings = lib.mapAttrsRecursive (_: lib.mkDefault) {
+    settings = dlib.mkDefault {
       shell = "bash";
       enable = [
         # enable optional checks

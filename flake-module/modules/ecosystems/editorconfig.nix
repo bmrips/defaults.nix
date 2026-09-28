@@ -13,6 +13,6 @@
     };
 
   config = lib.mkIf config.ecosystems.editorconfig.enable {
-    pre-commit.settings.hooks.editorconfig-checker.enable = true;
+    pre-commit.settings.hooks.editorconfig-checker.enable = dlib.mkDefault true;
   };
 }

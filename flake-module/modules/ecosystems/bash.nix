@@ -18,11 +18,11 @@
       "*.bash diff=bash"
       "*.sh diff=bash"
     ];
-    pre-commit.settings.hooks = {
+    pre-commit.settings.hooks = dlib.mkDefault {
       check-executables-have-shebangs.enable = true;
       check-shebang-scripts-are-executable.enable = true;
       shellcheck.enable = true;
     };
-    treefmt.programs.shfmt.enable = true;
+    treefmt.programs.shfmt.enable = dlib.mkDefault true;
   };
 }

@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  dlib,
+  lib,
+  ...
+}:
 
 {
   options.ecosystems.nix.enable = lib.mkEnableOption "tools for Nix development" // {
@@ -6,11 +11,11 @@
   };
 
   config = lib.mkIf config.ecosystems.nix.enable {
-    pre-commit.settings.hooks = {
+    pre-commit.settings.hooks = dlib.mkDefault {
       deadnix.enable = true;
       statix.enable = true;
     };
-    treefmt.programs = {
+    treefmt.programs = lib.mkDefault {
       nixf-diagnose.enable = true;
       nixfmt.enable = true;
     };

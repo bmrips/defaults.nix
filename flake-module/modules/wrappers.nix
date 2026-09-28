@@ -1,6 +1,7 @@
 # Integrate with git-hooks.nix and treefmt.nix
 
 {
+  dlib,
   lib,
   options,
   pkgs,
@@ -15,17 +16,11 @@ in
 {
   pre-commit.settings.hooks = lib.pipe pkgs.defaults [
     (builtins.intersectAttrs git-hooks)
-    (lib.mapAttrs (
-      _hook: wrapper: {
-        # git-hooks.nix sets `package` with default priority, hence we use a
-        # higher priority here.
-        package = lib.mkOverride 900 wrapper;
-      }
-    ))
+    (lib.mapAttrs (_hook: wrapper: { package = dlib.mkDefault wrapper; }))
   ];
 
   treefmt.programs = lib.pipe pkgs.defaults [
     (builtins.intersectAttrs formatters)
-    (lib.mapAttrs (_hook: wrapper: { package = lib.mkDefault wrapper; }))
+    (lib.mapAttrs (_hook: wrapper: { package = dlib.mkDefault wrapper; }))
   ];
 }

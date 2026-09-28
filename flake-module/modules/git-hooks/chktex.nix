@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  dlib,
+  lib,
+  ...
+}:
 
 let
   texRoot = config.ecosystems.tex.root;
@@ -8,5 +13,5 @@ lib.mkIf (texRoot != ".") {
     export CHKTEXRC="$PWD/${texRoot}"
   '';
   pre-commit.settings.hooks.chktex.entry =
-    "env CHKTEXRC=${texRoot} ${config.pre-commit.settings.hooks.chktex.package}/bin/chktex";
+    dlib.mkDefault "env CHKTEXRC=${texRoot} ${config.pre-commit.settings.hooks.chktex.package}/bin/chktex";
 }

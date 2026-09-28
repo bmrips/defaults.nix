@@ -1,5 +1,6 @@
 {
   config,
+  dlib,
   lib,
   pkgs,
   wlib,
@@ -21,7 +22,7 @@ in
   config = {
     flags = {
       "--config" = lib.mkIf (config.settings != { }) (yaml.generate "zizmor.yaml" config.settings);
-      "--persona" = lib.mkDefault "pedantic";
+      "--persona" = dlib.mkDefault "pedantic";
     };
     package = pkgs.zizmor;
   };

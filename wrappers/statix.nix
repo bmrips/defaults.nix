@@ -24,6 +24,6 @@ in
       (toml.generate "statix.toml" config.settings)
     ];
     package = pkgs.statix;
-    settings.disabled = lib.mkDefault [ "repeated_keys" ];
+    settings.disabled = [ "repeated_keys" ];
   };
 }

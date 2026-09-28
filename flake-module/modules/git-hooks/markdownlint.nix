@@ -1,12 +1,13 @@
 {
   config,
+  dlib,
   lib,
   pkgs,
   ...
 }:
 
 {
-  pre-commit.settings.hooks.markdownlint = {
+  pre-commit.settings.hooks.markdownlint = dlib.mkDefault {
     # Set the package explicitly since its name is different from the hook name.
     package = pkgs.defaults.markdownlint-cli;
 

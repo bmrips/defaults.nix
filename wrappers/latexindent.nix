@@ -1,5 +1,6 @@
 {
   config,
+  dlib,
   lib,
   pkgs,
   wlib,
@@ -22,11 +23,11 @@ in
   config = {
     flags = {
       "--local" = lib.mkIf (config.settings != { }) (yaml.generate "latexindent.yaml" config.settings);
-      "--modifylinebreaks" = lib.mkDefault true;
+      "--modifylinebreaks" = dlib.mkDefault true;
     };
     package = pkgs.texlivePackages.latexindent;
 
-    settings = lib.mapAttrsRecursive (_: lib.mkDefault) {
+    settings = dlib.mkDefault {
       defaultIndent = "    ";
       removeTrailingWhitespace.beforeProcessing = true;
       noAdditionalIndentGlobal.keyEqualsValuesBracesBrackets = true;

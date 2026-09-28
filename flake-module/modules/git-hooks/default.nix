@@ -1,5 +1,6 @@
 {
   config,
+  dlib,
   lib,
   pkgs,
   ...
@@ -8,7 +9,7 @@
 lib.mkMerge [
 
   {
-    pre-commit.settings = {
+    pre-commit.settings = dlib.mkDefault {
       package = pkgs.prek;
       hooks = {
         check-added-large-files.enable = true;

@@ -1,11 +1,16 @@
-{ config, lib, ... }:
+{
+  config,
+  dlib,
+  lib,
+  ...
+}:
 
 {
   make-shells.default.shellHook = lib.mkIf (config.files.file != { }) (
     lib.getExe config.files.writer.drv
   );
 
-  pre-commit.settings.hooks.write-files = {
+  pre-commit.settings.hooks.write-files = dlib.mkDefault {
     enable = config.files.file != { };
     description = "Write the declared files";
     pass_filenames = false;
