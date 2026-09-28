@@ -18,7 +18,7 @@ in
     (lib.mapAttrs (
       _hook: wrapper: {
         # git-hooks.nix sets `package` with default priority, hence we use a
-        # lower priority here.
+        # higher priority here.
         package = lib.mkOverride 900 wrapper;
       }
     ))
