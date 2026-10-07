@@ -17,27 +17,9 @@ in
   config = lib.mkIf cfg.enable {
     make-shells.default.packages = [ pkgs.jaq ];
     pre-commit.settings.hooks.check-json.enable = dlib.mkDefault true;
-
-    treefmt.settings.formatter.jaq = {
-      includes = [ "*.json" ];
-      # jaq supports in-place output but _always_ writes.
-      command = pkgs.defaults.writeShellApplication {
-        name = "jaq-wrapper";
-        derivationArgs = {
-          allowSubstitutes = false;
-          preferLocalBuild = true;
-        };
-        runtimeInputs = [ pkgs.jaq ];
-        text = /* bash */ ''
-          for file in "$@"; do
-            formatted=$(jaq . "$file")
-            original=$(<"$file")
-            if [[ "$formatted" != "$original" ]]; then
-              echo "$formatted" >"$file"
-            fi
-          done
-        '';
-      };
+    treefmt.programs.jq = {
+      enable = true;
+      package = pkgs.jaq;
     };
   };
 }
