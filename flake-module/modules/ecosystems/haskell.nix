@@ -84,7 +84,7 @@ in
         ecosystems.haskell.cabalPackage = {
           args = {
             inherit (pkgCfg) name;
-            root = root + "/" + pkgCfg.root;
+            root = lib.removeSuffix "/." (root + "/" + pkgCfg.root);
           };
           drv = hPkgs.developPackage pkgCfg.args;
         };
