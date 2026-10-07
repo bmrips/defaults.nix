@@ -4,6 +4,7 @@
   lib,
   pkgs,
   root,
+  wrappers,
   ...
 }:
 
@@ -39,10 +40,26 @@ in
       type = lib.types.package;
       apply =
         env:
-        if lib.any (drv: drv.pname == "latexmk") env.includedTeXPackages then
-          env
-        else
-          env.withPackages (ps: [ ps.latexmk ]);
+        env.withPackages (
+          ps:
+          let
+            chktex = wrappers.chktex.wrap {
+              inherit pkgs;
+              package = lib.mkForce ps.chktex;
+            };
+            latexindent = wrappers.latexindent.wrap {
+              inherit pkgs;
+              package = lib.mkForce ps.latexindent;
+            };
+            withLatexmk = lib.any (drv: drv.pname == "latexmk") env.includedTeXPackages;
+          in
+          [
+            # override chktex and latexindent with our wrappers.
+            chktex
+            latexindent
+          ]
+          ++ lib.optional (!withLatexmk) ps.latexmk
+        );
     };
     documents = lib.mkOption {
       description = ''
