@@ -30,7 +30,7 @@ in
         runtimeInputs = [ pkgs.jaq ];
         text = /* bash */ ''
           for file in "$@"; do
-            formatted=$(jaq --sort-keys . "$file")
+            formatted=$(jaq . "$file")
             original=$(<"$file")
             if [[ "$formatted" != "$original" ]]; then
               echo "$formatted" >"$file"
