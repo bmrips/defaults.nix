@@ -2,13 +2,14 @@
   config,
   dlib,
   lib,
-  pkgs,
+  self,
+  super,
   wlib,
   ...
 }:
 
 let
-  yaml = pkgs.defaults.formats.yaml_1_2 { };
+  yaml = self.defaults.formats.yaml_1_2 { };
 in
 {
   imports = [ wlib.modules.default ];
@@ -23,7 +24,7 @@ in
     flags."--config-file" = lib.mkIf (config.settings != { }) (
       yaml.generate "yamllint.yaml" config.settings
     );
-    package = pkgs.yamllint;
+    package = super.yamllint;
     settings = dlib.mkDefault {
       extends = "default";
       rules = {
