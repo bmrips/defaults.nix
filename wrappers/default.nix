@@ -13,8 +13,15 @@ let
       path' = ./. + "/${path}";
     in
     {
-      ${name} = {
-        _module.args.dlib = dlib;
+      ${name} = { pkgs, ... }: {
+        _module.args = {
+          inherit dlib;
+          # NOTE: Use `_module.args` since nix-wrapper-modules can not yet
+          # distinguish self/super pkgs instances. See:
+          # https://github.com/nix-community/nix-wrapper-modules/issues/629
+          self = lib.mkDefault pkgs;
+          super = lib.mkDefault pkgs;
+        };
         imports = [ path' ];
       };
     };
