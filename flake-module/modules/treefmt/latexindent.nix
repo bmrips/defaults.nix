@@ -1,4 +1,10 @@
-{ config, lib, ... }:
+{
+  config,
+  dlib,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   # We can not wrap the top-level configuration with this condition since we
@@ -16,9 +22,13 @@ in
     ]
   );
 
-  # Do not format packages and document classes, only TeX documents and
-  # bibliography files.
-  treefmt.settings.formatter = ifEnabled {
-    latexindent.includes = lib.mkForce [ "*.tex" ];
+  treefmt = {
+    programs.latexindent.package = dlib.mkDefault pkgs.defaults.latexindent;
+
+    # Do not format packages and document classes, only TeX documents and
+    # bibliography files.
+    settings.formatter = ifEnabled {
+      latexindent.includes = lib.mkForce [ "*.tex" ];
+    };
   };
 }
