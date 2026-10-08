@@ -2,13 +2,14 @@
   config,
   dlib,
   lib,
-  pkgs,
+  self,
+  super,
   wlib,
   ...
 }:
 
 let
-  toml = pkgs.formats.toml { };
+  toml = self.formats.toml { };
 in
 {
   imports = [ wlib.modules.default ];
@@ -24,7 +25,7 @@ in
       "--config"
       (toml.generate "taplo.toml" config.settings)
     ];
-    package = pkgs.taplo;
+    package = super.taplo;
     settings.formatting.array_auto_collapse = dlib.mkDefault false;
   };
 }

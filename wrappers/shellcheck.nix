@@ -2,7 +2,8 @@
   config,
   dlib,
   lib,
-  pkgs,
+  self,
+  super,
   wlib,
   ...
 }:
@@ -27,8 +28,8 @@
           lib.concatLines
         ];
       in
-      lib.mkIf (config.settings != { }) (pkgs.writeText "stylua.toml" text);
-    package = pkgs.shellcheck;
+      lib.mkIf (config.settings != { }) (self.writeText "stylua.toml" text);
+    package = super.shellcheck;
     settings = dlib.mkDefault {
       shell = "bash";
       enable = [

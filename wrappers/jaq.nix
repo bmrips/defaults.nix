@@ -1,10 +1,10 @@
-{ pkgs, wlib, ... }:
+{ super, wlib, ... }:
 
 {
   imports = [ wlib.modules.default ];
 
   config = {
     aliases = [ "jq" ];
-    package = pkgs.jaq;
+    package = super.jaq;
   };
 }
