@@ -15,7 +15,10 @@ inputs:
     _module.args = {
       pkgs = import inputs.nixpkgs {
         inherit system;
-        overlays = [ inputs.self.overlays.default ];
+        overlays = [
+          inputs.self.overlays.defaults
+          inputs.self.overlays.overrides
+        ];
       };
       root = self.outPath;
     };

@@ -9,7 +9,7 @@
 }:
 
 let
-  yaml = self.defaults.formats.yaml_1_2 { };
+  yaml = (self.defaults or self).formats.yaml_1_2 { };
 in
 {
   imports = [ wlib.modules.default ];

@@ -11,7 +11,7 @@
   imports = [ wlib.modules.default ];
 
   config = {
-    flags."-shellcheck" = dlib.mkDefault (lib.getExe self.defaults.shellcheck);
+    flags."-shellcheck" = dlib.mkDefault (lib.getExe (self.defaults or self).shellcheck);
     package = super.actionlint;
   };
 }
