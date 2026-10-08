@@ -33,14 +33,23 @@
       flake.flakeModule = flakeModule;
 
       flake.overlays.default =
-        self: _super:
+        self: super:
         let
           inherit (self.stdenv.hostPlatform) system;
-          packages = inputs.self.packages.${system};
           legacyPackages = inputs.self.legacyPackages.${system};
+          wrappers = builtins.mapAttrs (
+            _: w:
+            w.wrap {
+              # NOTE: Use `_module.args` since nix-wrapper-modules can not yet
+              # distinguish self/super pkgs instances. See:
+              # https://github.com/nix-community/nix-wrapper-modules/issues/629
+              _module.args = { inherit self super; };
+              pkgs = self;
+            }
+          ) inputs.self.wrappers;
         in
         {
-          defaults = packages // legacyPackages;
+          defaults = legacyPackages // wrappers;
         };
 
       perSystem = {

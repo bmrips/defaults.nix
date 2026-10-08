@@ -2,13 +2,14 @@
   config,
   dlib,
   lib,
-  pkgs,
+  self,
+  super,
   wlib,
   ...
 }:
 
 let
-  toml = pkgs.formats.toml { };
+  toml = self.formats.toml { };
 in
 {
   imports = [ wlib.modules.default ];
@@ -23,7 +24,7 @@ in
     flags."--config-path" = lib.mkIf (config.settings != { }) (
       toml.generate "stylua.toml" config.settings
     );
-    package = pkgs.stylua;
+    package = super.stylua;
     settings = dlib.mkDefault {
       call_parentheses = "None";
       column_width = 100;

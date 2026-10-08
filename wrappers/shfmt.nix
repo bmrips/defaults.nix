@@ -1,6 +1,6 @@
 {
   dlib,
-  pkgs,
+  super,
   wlib,
   ...
 }:
@@ -13,6 +13,6 @@
       "--indent" = toString 4;
       "--simplify" = true;
     };
-    package = pkgs.shfmt;
+    package = super.shfmt;
   };
 }

@@ -2,13 +2,14 @@
   config,
   dlib,
   lib,
-  pkgs,
+  self,
+  super,
   wlib,
   ...
 }:
 
 let
-  yaml = pkgs.defaults.formats.yaml_1_2 { };
+  yaml = self.defaults.formats.yaml_1_2 { };
 in
 {
   imports = [ wlib.modules.default ];
@@ -25,7 +26,7 @@ in
       "--local" = lib.mkIf (config.settings != { }) (yaml.generate "latexindent.yaml" config.settings);
       "--modifylinebreaks" = dlib.mkDefault true;
     };
-    package = pkgs.texlivePackages.latexindent;
+    package = super.texlivePackages.latexindent;
 
     settings = dlib.mkDefault {
       defaultIndent = "    ";

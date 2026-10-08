@@ -3,7 +3,7 @@
   dlib,
   lib,
   options,
-  pkgs,
+  super,
   wlib,
   ...
 }:
@@ -13,7 +13,7 @@
 
   config = {
     flags."--wrap" = dlib.mkDefault "no";
-    package = pkgs.mdformat;
+    package = super.mdformat;
 
     # `passthru` is not preserved by default. See
     # https://github.com/BirdeeHub/nix-wrapper-modules/issues/599

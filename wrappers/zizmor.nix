@@ -2,13 +2,14 @@
   config,
   dlib,
   lib,
-  pkgs,
+  self,
+  super,
   wlib,
   ...
 }:
 
 let
-  yaml = pkgs.defaults.formats.yaml_1_2 { };
+  yaml = self.defaults.formats.yaml_1_2 { };
 in
 {
   imports = [ wlib.modules.default ];
@@ -24,6 +25,6 @@ in
       "--config" = lib.mkIf (config.settings != { }) (yaml.generate "zizmor.yaml" config.settings);
       "--persona" = dlib.mkDefault "pedantic";
     };
-    package = pkgs.zizmor;
+    package = super.zizmor;
   };
 }
