@@ -86,17 +86,24 @@ in
         };
       };
       fineTuning.modifyLineBreaks.betterFullStop = ''
-        (?x)                # ignore spaces and comments in the below
-        \.                  # .
-        (?!                 # not *followed by*
-          (?:               #
-              [a-zA-Z0-9]   # letters or digits
-            | \\,           # \,
-            | \\@           # \@
-            | \),           # ),
-            | \)\.          # ).
-          )                 #
-        )                   #
+        (?x)                  # ignore spaces and comments in the below
+        (?:                   #
+          \.\)                # .)
+          (?!\h*[a-z])        # not *followed by* a-z
+        )                     #
+        |                     # OR
+        (?:                   #
+          \.                  # .
+          (?!                 # not *followed by*
+            (?:               #
+                [a-zA-Z0-9]   # letters or digits
+              | \\,           # \,
+              | \\@           # \@
+              | \),           # ),
+              | \)\.          # ).
+            )                 #
+          )                   #
+        )
       '';
     };
   };
