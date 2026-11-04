@@ -15,8 +15,13 @@
         name: value:
         let
           options = lib.cli.toCommandLineShellGNU { } {
-            yaml-style-newline = "|";
             yaml-tags = tags;
+
+            # Some YAML parsers like Perl's YAML::Tiny can handle neither line
+            # wrapping nor line breaks in scalar strings. Hence, disable
+            # wrapping and print strings containing line breaks in block form.
+            width = "inf";
+            yaml-style-newline = "|";
           };
         in
         pkgs.runCommand name
