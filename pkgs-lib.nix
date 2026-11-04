@@ -13,6 +13,12 @@
     {
       generate =
         name: value:
+        let
+          options = lib.cli.toCommandLineShellGNU { } {
+            yaml-style-newline = "|";
+            yaml-tags = tags;
+          };
+        in
         pkgs.runCommand name
           {
             nativeBuildInputs = [ pkgs.remarshal ];
@@ -21,7 +27,7 @@
             __structuredAttrs = true;
           }
           ''
-            json2yaml${lib.optionalString tags " --yaml-tags"} --yaml-style-newline="|" "$NIX_ATTRS_JSON_FILE" --unwrap=value "$out"
+            json2yaml "$NIX_ATTRS_JSON_FILE" --unwrap=value "$out" ${options}
           '';
 
       type = lib.types.serializableValueWith { typeName = "YAML 1.2"; };
