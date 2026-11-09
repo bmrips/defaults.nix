@@ -19,9 +19,6 @@ in
   # Do not format packages and document classes, only TeX documents and
   # bibliography files.
   treefmt.settings.formatter = ifEnabled {
-    latexindent.includes = lib.mkForce [
-      "*.tex"
-      "*.bib"
-    ];
+    latexindent.includes = lib.mkForce [ "*.tex" ];
   };
 }
