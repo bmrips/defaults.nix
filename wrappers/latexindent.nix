@@ -33,7 +33,14 @@ in
       noAdditionalIndentGlobal.keyEqualsValuesBracesBrackets = true;
       modifyLineBreaks = {
         condenseMultipleBlankLinesInto = true;
-        oneSentencePerLine.manipulateSentences = true;
+        oneSentencePerLine = {
+          manipulateSentences = true;
+          sentencesEndWith = {
+            exclamationMark = false;
+            questionMark = false;
+            other = ''[?!](?!\})'';
+          };
+        };
         environments = {
           BeginStartsOnOwnLine = 1;
           BodyStartsOnOwnLine = 1;
@@ -101,6 +108,7 @@ in
               | \\@           # \@
               | \),           # ),
               | \)\.          # ).
+              | \}            # }
             )                 #
           )                   #
         )
