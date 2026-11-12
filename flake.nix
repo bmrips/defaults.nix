@@ -23,65 +23,15 @@
       flakeModule = import ./flake-module inputs;
     in
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [
-        flakeModule
-        ./wrappers
-      ];
+      imports = [ flakeModule ];
 
       systems = inputs.nixpkgs.lib.systems.flakeExposed;
 
       flake.flakeModule = flakeModule;
 
-      flake.overlays =
-        let
-          mkWrappers =
-            self: super:
-            builtins.mapAttrs (
-              _: w:
-              w.wrap {
-                # NOTE: Use `_module.args` since nix-wrapper-modules can not yet
-                # distinguish self/super pkgs instances. See:
-                # https://github.com/nix-community/nix-wrapper-modules/issues/629
-                _module.args = { inherit self super; };
-                pkgs = self;
-              }
-            ) inputs.self.wrappers;
-        in
-        {
-          defaults =
-            self: super:
-            let
-              inherit (self.stdenv.hostPlatform) system;
-              legacyPackages = inputs.self.legacyPackages.${system};
-            in
-            {
-              defaults = legacyPackages // mkWrappers self super;
-            };
-          overrides =
-            self: super:
-            removeAttrs (mkWrappers self super) [
-              # Overlaying these would break dependent derivations.
-              "git"
-              "shellcheck"
-
-              # Not exposed on the top level.
-              # NOTE: overlaying the `texlive.pkgs` causes an infinite recursion
-              # error. See https://github.com/NixOS/nixpkgs/issues/582266.
-              "chktex"
-              "latexindent"
-            ];
-        };
-
       perSystem = { lib, pkgs, ... }: {
         imports = [ ./pkgs-lib.nix ];
-        direnv.watchedDirectories = [
-          "flake-module/"
-          "wrappers/"
-        ];
-
-        # Wire the wrappers into the `packages` output manually since the
-        # auto-wiring results in nested wrappers.
-        wrappers.control_type = "build";
+        direnv.watchedDirectories = [ "flake-module/" ];
         packages = lib.intersectAttrs inputs.self.wrappers pkgs.defaults;
       };
     };
