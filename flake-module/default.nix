@@ -16,31 +16,31 @@ inputs:
   flake.overlays =
     let
       mkWrappers =
-        self: super:
+        final: prev:
         builtins.mapAttrs (
           _: w:
           w.wrap {
             # NOTE: Use `_module.args` since nix-wrapper-modules can not yet
-            # distinguish self/super pkgs instances. See:
+            # distinguish final/prev pkgs instances. See:
             # https://github.com/nix-community/nix-wrapper-modules/issues/629
-            _module.args = { inherit self super; };
-            pkgs = self;
+            _module.args = { inherit final prev; };
+            pkgs = final;
           }
         ) self.wrappers;
     in
     {
       defaults =
-        self: super:
+        final: prev:
         let
-          inherit (self.stdenv.hostPlatform) system;
+          inherit (final.stdenv.hostPlatform) system;
           legacyPackages = inputs.self.legacyPackages.${system};
         in
         {
-          defaults = legacyPackages // mkWrappers self super;
+          defaults = legacyPackages // mkWrappers final prev;
         };
       defaults-overrides =
-        self: super:
-        removeAttrs (mkWrappers self super) [
+        final: prev:
+        removeAttrs (mkWrappers final prev) [
           # Overlaying these would break dependent derivations.
           "git"
           "shellcheck"

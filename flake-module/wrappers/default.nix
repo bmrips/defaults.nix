@@ -12,10 +12,10 @@ let
         _module.args = {
           inherit dlib;
           # NOTE: Use `_module.args` since nix-wrapper-modules can not yet
-          # distinguish self/super pkgs instances. See:
+          # distinguish final/prev pkgs instances. See:
           # https://github.com/nix-community/nix-wrapper-modules/issues/629
-          self = lib.mkDefault pkgs;
-          super = lib.mkDefault pkgs;
+          final = lib.mkDefault pkgs;
+          prev = lib.mkDefault pkgs;
         };
         imports = [ path' ];
       };

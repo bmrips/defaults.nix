@@ -1,9 +1,9 @@
 {
   config,
   dlib,
+  final,
   lib,
-  self,
-  super,
+  prev,
   wlib,
   ...
 }:
@@ -107,10 +107,10 @@ in
   config = {
     binName = "chktex";
     exePath = "bin/chktex";
-    package = super.texliveMinimal.withPackages (ps: [ ps.chktex ]);
+    package = prev.texliveMinimal.withPackages (ps: [ ps.chktex ]);
 
     env.CHKTEXRC = lib.mkIf (config.settings != { }) (
-      self.writeTextDir ".chktexrc" (lib.concatMapAttrsStringSep "" mkSetting config.settings)
+      final.writeTextDir ".chktexrc" (lib.concatMapAttrsStringSep "" mkSetting config.settings)
     );
 
     settings = dlib.mkDefault {

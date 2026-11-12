@@ -1,15 +1,15 @@
 {
   config,
   dlib,
+  final,
   lib,
-  self,
-  super,
+  prev,
   wlib,
   ...
 }:
 
 let
-  yaml = self.defaults.formats.yaml_1_2 { };
+  yaml = final.defaults.formats.yaml_1_2 { };
 in
 {
   imports = [ wlib.modules.default ];
@@ -22,7 +22,7 @@ in
 
   config = {
     flags."--config" = lib.mkIf (config.settings != { }) (yaml.generate "convco.yaml" config.settings);
-    package = super.convco;
+    package = prev.convco;
 
     settings = dlib.mkDefault {
       types = [

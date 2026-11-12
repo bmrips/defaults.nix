@@ -1,15 +1,15 @@
 {
   config,
   dlib,
+  final,
   lib,
-  self,
-  super,
+  prev,
   wlib,
   ...
 }:
 
 let
-  yaml = self.defaults.formats.yaml_1_2 { };
+  yaml = final.defaults.formats.yaml_1_2 { };
 in
 {
   imports = [ wlib.modules.default ];
@@ -24,7 +24,7 @@ in
     flags."--config" = lib.mkIf (config.settings != { }) (
       yaml.generate "fourmolu.yaml" config.settings
     );
-    package = super.fourmolu;
+    package = prev.fourmolu;
     settings = dlib.mkDefault {
       column-limit = 80;
       haddock-style = "single-line";
