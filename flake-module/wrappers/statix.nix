@@ -1,14 +1,14 @@
 {
   config,
+  final,
   lib,
-  self,
-  super,
+  prev,
   wlib,
   ...
 }:
 
 let
-  toml = self.formats.toml { };
+  toml = final.formats.toml { };
 in
 {
   imports = [ wlib.modules.default ];
@@ -24,7 +24,7 @@ in
       "--config"
       (toml.generate "statix.toml" config.settings)
     ];
-    package = super.statix;
+    package = prev.statix;
     settings.disabled = [ "repeated_keys" ];
   };
 }

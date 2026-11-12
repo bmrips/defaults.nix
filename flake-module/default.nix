@@ -14,9 +14,9 @@ inputs:
   ];
 
   flake.overlays.default =
-    self: super:
+    final: prev:
     let
-      inherit (self.stdenv.hostPlatform) system;
+      inherit (final.stdenv.hostPlatform) system;
       legacyPackages = inputs.self.legacyPackages.${system};
       wrappers = builtins.mapAttrs (
         _: w:
@@ -24,8 +24,8 @@ inputs:
           # NOTE: Use `_module.args` since nix-wrapper-modules can not yet
           # distinguish self/super pkgs instances. See:
           # https://github.com/nix-community/nix-wrapper-modules/issues/629
-          _module.args = { inherit self super; };
-          pkgs = self;
+          _module.args = { inherit final prev; };
+          pkgs = final;
         }
       ) self.wrappers;
     in

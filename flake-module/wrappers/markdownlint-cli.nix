@@ -1,15 +1,15 @@
 {
   config,
   dlib,
+  final,
   lib,
-  self,
-  super,
+  prev,
   wlib,
   ...
 }:
 
 let
-  yaml = self.defaults.formats.yaml_1_2 { };
+  yaml = final.defaults.formats.yaml_1_2 { };
 in
 {
   imports = [ wlib.modules.default ];
@@ -24,7 +24,7 @@ in
     flags."--config" = lib.mkIf (config.settings != { }) (
       yaml.generate "markdownlint.yaml" config.settings
     );
-    package = super.markdownlint-cli;
+    package = prev.markdownlint-cli;
     settings.line_length = dlib.mkDefault false;
   };
 }

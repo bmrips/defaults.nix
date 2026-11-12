@@ -1,18 +1,18 @@
 {
   config,
+  final,
   lib,
-  self,
-  super,
+  prev,
   wlib,
   ...
 }:
 
 let
-  toml = self.formats.toml { };
-  yaml = self.defaults.formats.yaml_1_2 { };
+  toml = final.formats.toml { };
+  yaml = final.defaults.formats.yaml_1_2 { };
 
   settingsFile = toml.generate "selene.toml" config.settings;
-  settingsDir = self.linkFarm "selene-settings" [
+  settingsDir = final.linkFarm "selene-settings" [
     {
       name = "selene.toml";
       path = settingsFile;
@@ -43,7 +43,7 @@ in
     flags."--config" = lib.mkIf (config.settings != { }) (
       if config.standardLibrary != { } then "${settingsDir}/selene.toml" else settingsFile
     );
-    package = super.selene;
+    package = prev.selene;
     settings.std = lib.mkIf (config.standardLibrary != { }) "std";
   };
 }

@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  super,
+  prev,
   wlib,
   ...
 }:
@@ -34,6 +34,6 @@
       in
       lib.mapAttrsToListRecursive mkConfig nonEmptySections;
 
-    package = super.git;
+    package = prev.git;
   };
 }
