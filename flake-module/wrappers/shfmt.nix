@@ -1,6 +1,6 @@
 {
   dlib,
-  super,
+  prev,
   wlib,
   ...
 }:
@@ -13,6 +13,6 @@
       "--indent" = toString 4;
       "--simplify" = true;
     };
-    package = super.shfmt;
+    package = prev.shfmt;
   };
 }

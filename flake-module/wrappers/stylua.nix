@@ -1,15 +1,15 @@
 {
   config,
   dlib,
+  final,
   lib,
-  self,
-  super,
+  prev,
   wlib,
   ...
 }:
 
 let
-  toml = self.formats.toml { };
+  toml = final.formats.toml { };
 in
 {
   imports = [ wlib.modules.default ];
@@ -24,7 +24,7 @@ in
     flags."--config-path" = lib.mkIf (config.settings != { }) (
       toml.generate "stylua.toml" config.settings
     );
-    package = super.stylua;
+    package = prev.stylua;
     settings = dlib.mkDefault {
       call_parentheses = "None";
       column_width = 100;

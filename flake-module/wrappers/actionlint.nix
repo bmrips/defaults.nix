@@ -1,8 +1,8 @@
 {
   dlib,
+  final,
   lib,
-  self,
-  super,
+  prev,
   wlib,
   ...
 }:
@@ -11,7 +11,7 @@
   imports = [ wlib.modules.default ];
 
   config = {
-    flags."-shellcheck" = dlib.mkDefault (lib.getExe self.defaults.shellcheck);
-    package = super.actionlint;
+    flags."-shellcheck" = dlib.mkDefault (lib.getExe final.defaults.shellcheck);
+    package = prev.actionlint;
   };
 }

@@ -1,15 +1,15 @@
 {
   config,
   dlib,
+  final,
   lib,
-  self,
-  super,
+  prev,
   wlib,
   ...
 }:
 
 let
-  yaml = self.defaults.formats.yaml_1_2 { };
+  yaml = final.defaults.formats.yaml_1_2 { };
 in
 {
   imports = [ wlib.modules.default ];
@@ -24,7 +24,7 @@ in
     flags."--config-file" = lib.mkIf (config.settings != { }) (
       yaml.generate "yamllint.yaml" config.settings
     );
-    package = super.yamllint;
+    package = prev.yamllint;
     settings = dlib.mkDefault {
       extends = "default";
       rules = {

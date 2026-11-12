@@ -1,15 +1,15 @@
 {
   config,
   dlib,
+  final,
   lib,
-  self,
-  super,
+  prev,
   wlib,
   ...
 }:
 
 let
-  toml = self.formats.toml { };
+  toml = final.formats.toml { };
 in
 {
   imports = [ wlib.modules.default ];
@@ -25,7 +25,7 @@ in
       "--config"
       (toml.generate "taplo.toml" config.settings)
     ];
-    package = super.taplo;
+    package = prev.taplo;
     settings.formatting.array_auto_collapse = dlib.mkDefault false;
   };
 }
