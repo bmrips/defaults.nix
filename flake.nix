@@ -23,41 +23,16 @@
       flakeModule = import ./flake-module inputs;
     in
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [
-        flakeModule
-        ./wrappers
-      ];
+      imports = [ flakeModule ];
 
       systems = inputs.nixpkgs.lib.systems.flakeExposed;
 
       flake.flakeModule = flakeModule;
 
-      flake.overlays.default =
-        self: super:
-        let
-          inherit (self.stdenv.hostPlatform) system;
-          legacyPackages = inputs.self.legacyPackages.${system};
-          wrappers = builtins.mapAttrs (
-            _: w:
-            w.wrap {
-              # NOTE: Use `_module.args` since nix-wrapper-modules can not yet
-              # distinguish self/super pkgs instances. See:
-              # https://github.com/nix-community/nix-wrapper-modules/issues/629
-              _module.args = { inherit self super; };
-              pkgs = self;
-            }
-          ) inputs.self.wrappers;
-        in
-        {
-          defaults = legacyPackages // wrappers;
-        };
-
-      perSystem = {
+      perSystem = { lib, pkgs, ... }: {
         imports = [ ./pkgs-lib.nix ];
-        direnv.watchedDirectories = [
-          "flake-module/"
-          "wrappers/"
-        ];
+        direnv.watchedDirectories = [ "flake-module/" ];
+        packages = lib.intersectAttrs inputs.self.wrappers pkgs.defaults;
       };
     };
 }
