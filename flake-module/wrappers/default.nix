@@ -1,9 +1,4 @@
-{
-  inputs,
-  dlib,
-  lib,
-  ...
-}:
+{ dlib, lib, ... }:
 
 let
   importModule =
@@ -27,8 +22,6 @@ let
     };
 in
 {
-  imports = [ "${inputs.wrappers}/parts.nix" ];
-
   flake.wrappers = lib.pipe ./. [
     builtins.readDir
     (lib.filterAttrs (path: _: path != "default.nix"))
