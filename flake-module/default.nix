@@ -1,6 +1,6 @@
 inputs:
 
-{ self, ... }:
+{ lib, self, ... }:
 
 {
   imports = [
@@ -50,7 +50,18 @@ inputs:
           # error. See https://github.com/NixOS/nixpkgs/issues/582266.
           "chktex"
           "latexindent"
-        ];
+        ]
+        // {
+          haskell = prev.haskell // {
+            packages = lib.mapAttrs (
+              _: hPkgs:
+              hPkgs
+              // lib.optionalAttrs (hPkgs ? fourmolu) {
+                fourmolu = self.wrappers.fourmolu.wrap { package = hPkgs.fourmolu; };
+              }
+            ) prev.haskell.packages;
+          };
+        };
     };
 
   perSystem = { system, ... }: {
