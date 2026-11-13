@@ -11,8 +11,16 @@
 {
   imports = [ wlib.modules.default ];
 
+  options.plugins = lib.mkOption {
+    description = "Plugins to be installed.";
+    example = lib.literalExpression "ps: [ ps.mdformat-gfm ]";
+    default = _: [ ];
+    type = wlib.types.withPackagesType;
+  };
+
   config = {
     flags."--wrap" = dlib.mkDefault "no";
+    overrides = [ (package: package.withPlugins config.plugins) ];
     package = prev.mdformat;
 
     # `passthru` is not preserved by default. See
@@ -22,6 +30,6 @@
       let
         currentPrio = options.overrides.highestPrio or lib.modules.defaultOverridePriority;
       in
-      config.wrap { overrides = lib.mkOverride currentPrio [ (base: base.withPlugins selector) ]; };
+      config.wrap { plugins = lib.mkOverride currentPrio selector; };
   };
 }
