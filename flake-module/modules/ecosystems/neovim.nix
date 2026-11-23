@@ -17,7 +17,7 @@
         prio = (dlib.defaultOverridePriority + lib.modules.defaultOverridePriority) / 2;
       in
       dlib.mkOverride prio (
-        pkgs.defaults.selene.wrap {
+        pkgs.wrappers.selene.wrap {
           settings.lints.mixed_table = "allow";
           standardLibrary = {
             base = "lua51";

@@ -1,6 +1,6 @@
 inputs:
 
-{ self, ... }:
+{ lib, self, ... }:
 
 {
   imports = [
@@ -30,7 +30,14 @@ inputs:
       ) self.wrappers;
     in
     {
-      defaults = legacyPackages // wrappers;
+      inherit wrappers;
+      defaults =
+        legacyPackages
+        // lib.removeAttrs wrappers [
+          # These wrappers don't set any defaults.
+          "git"
+          "selene"
+        ];
     };
 
   perSystem = { system, ... }: {

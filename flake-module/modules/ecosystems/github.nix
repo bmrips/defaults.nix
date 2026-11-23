@@ -98,7 +98,7 @@ in
               # We need an even higher priority here since the package is
               # implicitly set by the wrappers integration already.
               prio = (dlib.defaultOverridePriority - lib.modules.defaultOverridePriority) / 2;
-              package = pkgs.defaults.zizmor.wrap {
+              package = pkgs.wrappers.zizmor.wrap {
                 settings.rules.ref-version-mismatch.ignore = [ "${name}.yaml" ];
               };
             in
